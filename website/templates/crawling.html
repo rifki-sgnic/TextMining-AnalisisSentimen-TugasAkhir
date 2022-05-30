@@ -1,0 +1,115 @@
+{% extends 'base.html' %} 
+{% block title %}Crawling Data{% endblock title %}
+{% block content %}
+
+<div class="col-md-12 col-sm-12">
+  <div class="bs-callout bs-callout-primary mt-0">
+    <div class="d-inline-flex">
+      <h3>Data Crawling</h3>
+    </div>
+    <p class="text-muted">Pengumpulan data bersumber pada media sosial Twitter</p>
+  </div>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="col-md-12 text-center mb-3">
+    <button type="button" class="btn btn-success w-25 mx-1" data-bs-toggle="modal" data-bs-target="#modalCrawling"><i class="fa fa-twitter"></i> <em>Crawling</em> Data</button>
+    <em>atau</em>
+    <button type="button" class="btn btn-success w-25 mx-1" data-bs-toggle="modal" data-bs-target="#modalImport"><i class="fa fa-plus"></i> <em>Import</em> Data</button>
+  </div>
+
+  <!-- Modal Crawling -->
+  <div class="modal fade" tabindex="-1" id="modalCrawling">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Crawling Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form>
+          <div class="modal-body px-5">
+            <div class="form-group">
+              <label>Kata Kunci Pencarian</label>
+              <input type="text" name="kata_kunci" id="kata_kunci" class="form-control" placeholder="#IndihomeCare" required />
+            </div>
+            <div class="form-group">
+              <label>Tanggal Awal Tweet</label>
+              <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label>Tanggal Akhir Tweet</label>
+              <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control" required />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="button" id="crawling_data" class="btn btn-primary">Mulai</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Import Excel -->
+  <div class="modal fade" tabindex="-1" id="modalImport">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Import Crawling Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/import-crawling" method="POST" enctype="multipart/form-data">
+          <div class="modal-body px-5">
+            <label>File Excel (.xls atau .xlsx)</label>
+            <div class="custom-file">
+              <input type="file" name="excel_file" id="file_input" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Import</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive-sm">
+    <table class="table table-bordered table-striped text-center w-100" id="table_dataCrawling">
+      <thead class="w-100">
+        <tr>
+          <th width="5%" class="text-center">No.</th>
+          <th width="15%" class="text-center">ID</th>
+          <th width="50%" class="text-center">Teks</th>
+          <th width="15%" class="text-center">Pengguna</th>
+          <th width="15%" class="text-center">Dibuat pada</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in data %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ row['id'] }}</td>
+          <td>{{ row['text'] }}</td>
+          <td>{{ row['user'] }}</td>
+          <td>{{ row['created_at'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    
+</div>
+
+{% endblock content %}
