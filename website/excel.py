@@ -42,22 +42,44 @@ class Excel:
 
     # Fungsi membuat tuple dari data excel slangword
     def make_tuples_slangwords(self, df):
-        tweets_container = []
+        texts_container = []
         df = pd.read_excel(df)
         
         for index, row in df.iterrows():
-            tweet_tuple = (str(row['slangwords']).lower(), str(row['kata asli']).lower())
-            tweets_container.append(tweet_tuple)
+            text_tuple = (str(row['slangwords']).lower(), str(row['kata asli']).lower())
+            texts_container.append(text_tuple)
         
-        return tweets_container
+        return texts_container
 
     # Fungsi tuple dari data excel stopword
     def make_tuples_stopwords(self, df):
-        tweets_container = []
+        texts_container = []
         df = pd.read_excel(df)
 
         for index, row in df.iterrows():
-            tweet_tuple = (str(row['stopwords']).lower())
-            tweets_container.append(tweet_tuple)
+            text_tuple = (str(row['stopwords']).lower())
+            texts_container.append(text_tuple)
         
-        return tweets_container
+        return texts_container
+
+    # Fungsi tuple dari data excel kata positif
+    def make_tuples_kata_positif(self, df):
+        texts_container = []
+        df = pd.read_excel(df)
+
+        for index, row in df.iterrows():
+            text_tuple = (str(row['positive_word']).lower())
+            texts_container.append(text_tuple)
+
+        return texts_container
+    
+    # Fungsi tuple dari data excel kata negatif
+    def make_tuples_kata_negatif(self, df):
+        texts_container = []
+        df = pd.read_excel(df)
+
+        for index, row in df.iterrows():
+            text_tuple = (str(row['negative_word']).lower())
+            texts_container.append(text_tuple)
+
+        return texts_container

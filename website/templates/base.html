@@ -10,19 +10,22 @@
       type="text/css"
     />
     <!-- Bootstrap -->
-    <link 
+    <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
       type="text/css"
     />
     <!-- DataTables -->
-    <link 
+    <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/dataTables.bootstrap5.min.css') }}"
       type="text/css"
     />
     <!-- Boxicons CDN Link -->
-    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'/>
+    <link
+      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+      rel="stylesheet"
+    />
 
     <title>{% block title %}Dashboard{% endblock title %}</title>
   </head>
@@ -30,50 +33,50 @@
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo">
-          <i class='bx bxl-flask'></i>
+          <i class="bx bxl-flask"></i>
           <div class="logo-name">TEXT MINING</div>
         </div>
-        <i class='bx bx-menu' id="btn-menu" ></i>
+        <i class="bx bx-menu" id="btn-menu"></i>
       </div>
       <ul class="nav-list">
         <li>
           <a href="{{ url_for('views.dashboard') }}">
-            <i class='bx bxs-dashboard' ></i>
+            <i class="bx bxs-dashboard"></i>
             <span class="link-name">Dashboard</span>
           </a>
           <span class="tool-tip">Dashboard</span>
         </li>
         <li>
-          <a href="#">
-            <i class='bx bxs-book-add' ></i>
+          <a href="{{ url_for('views.kamus') }}">
+            <i class="bx bxs-book-add"></i>
             <span class="link-name">Kamus Data</span>
           </a>
           <span class="tool-tip">Kamus Data</span>
         </li>
         <li>
           <a href="{{ url_for('views.crawling') }}">
-            <i class='bx bxl-twitter' ></i>
+            <i class="bx bxl-twitter"></i>
             <span class="link-name">Data Crawling</span>
           </a>
           <span class="tool-tip">Data Crawling</span>
         </li>
         <li>
           <a href="{{ url_for('views.preprocessing') }}">
-            <i class='bx bx-analyse'></i>
+            <i class="bx bx-analyse"></i>
             <span class="link-name">Preprocessing</span>
           </a>
           <span class="tool-tip">Preprocessing</span>
         </li>
         <li>
           <a href="{{ url_for('views.labeling') }}">
-            <i class='bx bx-purchase-tag'></i>
+            <i class="bx bx-purchase-tag"></i>
             <span class="link-name">Labeling</span>
           </a>
           <span class="tool-tip">Labeling</span>
         </li>
         <li>
-          <a href="{{ url_for('views.splitting') }}">
-            <i class='bx bx-columns'></i>
+          <a href="{{ url_for('views.split') }}">
+            <i class="bx bx-columns"></i>
             <span class="link-name">Splitting Data</span>
           </a>
           <span class="tool-tip">Splitting Data</span>
@@ -82,32 +85,30 @@
       <div class="profile-content">
         <div class="profile">
           <div class="profile-details">
-            <i class='bx bx-user-circle' ></i>
+            <i class="bx bx-user-circle"></i>
             <!-- <img src="profile.png" alt=""> -->
             <div class="name-job">
               <div class="name">Admin</div>
             </div>
           </div>
-          <i class='bx bx-log-out' id="log-out" ></i>
+          <i class="bx bx-log-out" id="log-out"></i>
         </div>
       </div>
     </div>
 
     <main class="main">
       <div class="base-container">
-        <div class="row">
-          {% block content %} {% endblock content %}
-        </div>
+        <div class="row">{% block content %} {% endblock content %}</div>
       </div>
     </main>
 
     <!-- Scripts -->
-    <script 
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" 
-      integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" 
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+      integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
       crossorigin="anonymous"
     ></script>
-    
+
     <script
       type="text/javascript"
       src="{{ url_for('static', filename='js/bootstrap.min.js') }}"
@@ -124,7 +125,7 @@
       type="text/javascript"
       src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"
     ></script>
-    
+
     <script
       type="text/javascript"
       src="{{ url_for('static', filename='js/dataTables.bootstrap5.min.js') }}"

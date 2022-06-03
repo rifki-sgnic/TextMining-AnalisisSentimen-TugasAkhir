@@ -1,0 +1,602 @@
+{% extends 'base.html' %}
+{% block title %}Kamus Data{% endblock title %}
+{% block content %}
+
+<div class="col-md-12 col-sm-12">
+  <div class="bs-callout bs-callout-primary mt-0">
+    <div class="d-inline-flex">
+      <h3>Kamus Data</h3>
+    </div>
+    <p class="text-muted">Daftar Kamus Data</p>
+  </div>
+
+    {% with messages = get_flashed_messages(category_filter=["success"]) %}
+			{% if messages %}
+				{% for message in messages %}
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</button>
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+
+		{% with messages = get_flashed_messages(category_filter=["error"]) %}
+			{% if messages %}
+				{% for message in messages %}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</button>
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+
+  <div id="content_kamus">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="kata-positif-tab" data-bs-toggle="tab" data-bs-target="#kata-positif-tab-pane" type="button" role="tab" aria-controls="kata-positif-tab-pane" aria-selected="true">Kata Positif</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="kata-negatif-tab" data-bs-toggle="tab" data-bs-target="#kata-negatif-tab-pane" type="button" role="tab" aria-controls="kata-negatif-tab-pane" aria-selected="false">Kata Negatif</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="slangword-tab" data-bs-toggle="tab" data-bs-target="#slangword-tab-pane" type="button" role="tab" aria-controls="slangword-tab-pane" aria-selected="false">Slangword</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="stopword-tab" data-bs-toggle="tab" data-bs-target="#stopword-tab-pane" type="button" role="tab" aria-controls="stopword-tab-pane" aria-selected="false">Stopword</button>
+      </li>
+    </ul>
+    
+    <div class="tab-content p-3" id="myTabContent">
+      <div class="tab-pane fade show active" id="kata-positif-tab-pane" role="tabpanel" aria-labelledby="kata-positif-tab" tabindex="0">
+
+        <div class="d-flex flex-row mb-3">
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalTambahDataPositif"><i class='bx bx-plus' ></i> Tambah Kata Positif</button>
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalImportDataPositif"><i class='bx bxs-file-plus' ></i> Import Kata Positif</button>
+          <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusSemuaDataPositif"><i class='bx bx-trash'></i> Hapus Kata Positif</button>
+        </div>
+
+        <div class="table-responsive-sm">
+          <table class="table table-bordered table-striped text-center w-100" id="table_dataKataPositif">
+            <thead class="w-100">
+              <tr>
+                <th width="10%" class="text-center">No.</th>
+                <th width="70%" class="text-center">Kata Positif</th>
+                <th width="20%" class="text-center">Aksi</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <!-- Modal Tambah Data Positif -->
+        <div class="modal fade" tabindex="-1" id="modalTambahDataPositif">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Ubah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/kata-positif/tambah" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="form-group px-4 text-left">
+                    <label>Kata Positif</label>
+                    <input type="text" name="kata_positif" class="form-control" placeholder="Misal: baik" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Ubah data positif -->
+        <div class="modal fade" tabindex="-1" id="modalUbahKataPositif">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Ubah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/kata-positif/ubah" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="form-group px-4 text-left">
+                    <label>Kata Positif</label>
+                    <input type="text" name="kata_positif" class="form-control" required>
+                  </div>
+                  <input type="hidden" name="id" required readonly>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Ubah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Hapus data positif -->
+        <div class="modal fade" tabindex="-1" id="modalHapusKataPositif">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-3">
+                <p class="my-2">Apakah Anda yakin ingin menghapus kata "<strong class="text-dark"></strong>"?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/kamus/kata-positif/hapus" method="POST">
+                  <input type="hidden" name="id" required readonly>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Hapus semua data positif -->
+        <div class="modal fade" tabindex="-1" id="modalHapusSemuaDataPositif">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-3">
+                <p class="my-2">Apakah Anda yakin ingin menghapus seluruh data kata positif?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/kamus/kata-positif/hapus-all" method="POST">
+                  <input type="hidden" name="id" required readonly>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Import Excel -->
+        <div class="modal fade" tabindex="-1" id="modalImportDataPositif">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Import Kata Positif</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/kata-positif/import" method="POST" enctype="multipart/form-data">
+                <div class="modal-body px-5">
+                  <label>File Excel (.xls atau .xlsx)</label>
+                  <div class="custom-file">
+                    <input type="file" name="excel_file" id="file_input" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="kata-negatif-tab-pane" role="tabpanel" aria-labelledby="kata-negatif-tab" tabindex="0">
+
+        <div class="d-flex flex-row mb-3">
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalTambahDataNegatif"><i class='bx bx-plus' ></i> Tambah Kata Negatif</button>
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalImportDataNegatif"><i class='bx bxs-file-plus' ></i> Import Kata Negatif</button>
+          <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusSemuaDataNegatif"><i class='bx bx-trash'></i> Hapus Kata Negatif</button>
+        </div>
+
+        <div class="table-responsive-sm">
+          <table class="table table-bordered table-striped text-center w-100" id="table_dataKataNegatif">
+            <thead class="w-100">
+              <tr>
+                <th width="10%" class="text-center">No.</th>
+                <th width="70%" class="text-center">Kata Negatif</th>
+                <th width="20%" class="text-center">Aksi</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <!-- Modal Tambah Data Negatif -->
+        <div class="modal fade" tabindex="-1" id="modalTambahDataNegatif">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Tambah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/kata-negatif/tambah" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="form-group px-4 text-left">
+                    <label>Kata Negatif</label>
+                    <input type="text" name="kata_negatif" class="form-control" placeholder="Misal: buruk" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Ubah data negatif -->
+        <div class="modal fade" tabindex="-1" id="modalUbahKataNegatif">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Ubah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/kata-negatif/ubah" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="form-group px-4 text-left">
+                    <label>Kata Negatif</label>
+                    <input type="text" name="kata_negatif" class="form-control" required>
+                  </div>
+                  <input type="hidden" name="id" required readonly>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Ubah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Hapus data negatif -->
+        <div class="modal fade" tabindex="-1" id="modalHapusSemuaDataNegatif">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-3">
+                <p class="my-2">Apakah Anda yakin ingin menghapus seluruh data kata negatif?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/kamus/kata-negatif/hapus-all" method="POST">
+                  <input type="hidden" name="id" required readonly>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Hapus semua data negatif -->
+        <div class="modal fade" tabindex="-1" id="modalHapusKataNegatif">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-3">
+                <p class="my-2">Apakah Anda yakin ingin menghapus kata "<strong class="text-dark"></strong>"?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/kamus/kata-negatif/hapus" method="POST">
+                  <input type="hidden" name="id" required readonly>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Import Excel -->
+        <div class="modal fade" tabindex="-1" id="modalImportDataNegatif">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Import Kata Negatif</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/kata-negatif/import" method="POST" enctype="multipart/form-data">
+                <div class="modal-body px-5">
+                  <label>File Excel (.xls atau .xlsx)</label>
+                  <div class="custom-file">
+                    <input type="file" name="excel_file" id="file_input" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="tab-pane fade" id="slangword-tab-pane" role="tabpanel" aria-labelledby="slangword-tab" tabindex="0">
+        <div class="d-flex flex-row mb-3">
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalTambahDataSlangword"><i class='bx bx-plus' ></i> Tambah Slangword</button>
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalImportDataSlangword"><i class='bx bxs-file-plus' ></i> Import Slangword</button>
+          <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusSemuaDataSlangword"><i class='bx bx-trash'></i> Hapus Slangword</button>
+        </div>
+        <div class="table-responsive-sm">
+          <table class="table table-bordered table-striped text-center w-100" id="table_dataSlangword">
+            <thead class="w-100">
+              <tr>
+                <th width="10%" class="text-center">No.</th>
+                <th width="35%" class="text-center">Slangword</th>
+                <th width="35%" class="text-center">Kata Asli</th>
+                <th width="20%" class="text-center">Aksi</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <!-- Modal Tambah Data Slangword -->
+        <div class="modal fade" tabindex="-1" id="modalTambahDataSlangword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Tambah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/slangword/tambah" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="form-group px-4 text-left">
+                    <label>Slangword</label>
+                    <input type="text" name="slangword" class="form-control" placeholder="Misal: abis" required>
+                  </div>
+                  <div class="form-group px-4 text-left">
+                    <label>Kata Asli</label>
+                    <input type="text" name="kata_asli" class="form-control" placeholder="Misal: habis" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Ubah data Slangword -->
+        <div class="modal fade" tabindex="-1" id="modalUbahSlangword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Ubah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/slangword/ubah" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="form-group px-4 text-left">
+                    <label>Slangword</label>
+                    <input type="text" name="slangword" class="form-control" required>
+                  </div>
+                  <div class="form-group px-4 text-left">
+                    <label>Kata Asli</label>
+                    <input type="text" name="kata_asli" class="form-control" required>
+                  </div>
+                  <input type="hidden" name="id" required readonly>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Ubah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Hapus data Slangword -->
+        <div class="modal fade" tabindex="-1" id="modalHapusSlangword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-3">
+                <p class="my-2">Apakah Anda yakin ingin menghapus kata "<strong class="text-dark"></strong>"?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/kamus/slangword/hapus" method="POST">
+                  <input type="hidden" name="id" required readonly>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Hapus semua data Slangword -->
+        <div class="modal fade" tabindex="-1" id="modalHapusSemuaDataSlangword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-3">
+                <p class="my-2">Apakah Anda yakin ingin menghapus seluruh data Slangword?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/kamus/slangword/hapus-all" method="POST">
+                  <input type="hidden" name="id" required readonly>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Import Excel -->
+        <div class="modal fade" tabindex="-1" id="modalImportDataSlangword">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Import Slangword</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/slangword/import" method="POST" enctype="multipart/form-data">
+                <div class="modal-body px-5">
+                  <label>File Excel (.xls atau .xlsx)</label>
+                  <div class="custom-file">
+                    <input type="file" name="excel_file" id="file_input" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="tab-pane fade" id="stopword-tab-pane" role="tabpanel" aria-labelledby="stopword-tab" tabindex="0">
+        <div class="d-flex flex-row mb-3">
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalTambahDataStopword"><i class='bx bx-plus' ></i> Tambah Stopword</button>
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalImportDataStopword"><i class='bx bxs-file-plus' ></i> Import Stopword</button>
+          <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusSemuaDataStopword"><i class='bx bx-trash'></i> Hapus Stopword</button>
+        </div>
+        <div class="table-responsive-sm">
+          <table class="table table-bordered table-striped text-center w-100" id="table_dataStopword">
+            <thead class="w-100">
+              <tr>
+                <th width="10%" class="text-center">No.</th>
+                <th width="70%" class="text-center">Stopword</th>
+                <th width="20%" class="text-center">Aksi</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <!-- Modal Tambah Data Stopword -->
+        <div class="modal fade" tabindex="-1" id="modalTambahDataStopword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Tambah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/stopword/tambah" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="form-group px-4 text-left">
+                    <label>Stopword</label>
+                    <input type="text" name="stopword" class="form-control" placeholder="Misal: saya" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Ubah data Stopwrod -->
+        <div class="modal fade" tabindex="-1" id="modalUbahStopword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Ubah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/stopword/ubah" method="POST">
+                <div class="modal-body mx-3">
+                  <div class="form-group px-4 text-left">
+                    <label>Stopword</label>
+                    <input type="text" name="stopword" class="form-control" required>
+                  </div>
+                  <input type="hidden" name="id" required readonly>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Ubah</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Hapus data Stopword -->
+        <div class="modal fade" tabindex="-1" id="modalHapusStopword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-3">
+                <p class="my-2">Apakah Anda yakin ingin menghapus kata "<strong class="text-dark"></strong>"?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/kamus/stopword/hapus" method="POST">
+                  <input type="hidden" name="id" required readonly>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Hapus semua data Stopword -->
+        <div class="modal fade" tabindex="-1" id="modalHapusSemuaDataStopword">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Hapus Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-3">
+                <p class="my-2">Apakah Anda yakin ingin menghapus seluruh data Stopword?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="/kamus/stopword/hapus-all" method="POST">
+                  <input type="hidden" name="id" required readonly>
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Import Excel -->
+        <div class="modal fade" tabindex="-1" id="modalImportDataStopword">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Import Stopword</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/kamus/stopword/import" method="POST" enctype="multipart/form-data">
+                <div class="modal-body px-5">
+                  <label>File Excel (.xls atau .xlsx)</label>
+                  <div class="custom-file">
+                    <input type="file" name="excel_file" id="file_input" class="form-control" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

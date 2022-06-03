@@ -5,6 +5,161 @@
 // TODO
 
 /**
+ * 	AJAX KAMUS
+ */
+// TAMPIL DATA KATA POSITIF [START]
+var table_dataKataPositif = $('#table_dataKataPositif').DataTable({
+	"deferRender": true,
+	"ajax": "/kamus/list-kata-positif",
+	"columns": [
+		{
+			data: null, 
+			"render": function (data, type, full, meta) {
+				return  meta.row + 1;
+			}
+		},
+		{ data: 'positive_word' },
+		{
+			data: null,
+			"defaultContent": `
+				<button type="button" value="update" class="btn btn-primary mb-1"><i class="fa fa-pencil text-white"></i>Edit</button>
+				<button type="button" value="delete" class="btn btn-danger mb-1"><i class="fa fa-trash"></i>Delete</button>								
+			`
+		},
+	],
+});
+$('#table_dataKataPositif tbody').on( 'click', 'button', function () {
+	var data = table_dataKataPositif.row($(this).parents('tr')).data();
+	if($(this).prop("value") == 'update') {
+		$("#modalUbahKataPositif").find("input[name='kata_positif']").val(data['positive_word']);
+		$("#modalUbahKataPositif").find("input[name='id']").val(data['id_positive']);
+		$('#modalUbahKataPositif').modal('show');
+	}
+	else if($(this).prop("value") == 'delete') {
+		$("#modalHapusKataPositif").find("p strong").html(data['positive_word']);
+		$("#modalHapusKataPositif").find("input[name='id']").val(data['id_positive']);
+		$('#modalHapusKataPositif').modal('show');
+	}
+});
+
+// TAMPIL DATA KATA NEGATIF [START]
+var table_dataKataNegatif = $('#table_dataKataNegatif').DataTable({
+	"deferRender": true,
+	"ajax": "/kamus/list-kata-negatif",
+	"columns": [
+		{
+			data: null, 
+			"render": function (data, type, full, meta) {
+				return  meta.row + 1;
+			}
+		},
+		{ data: 'negative_word' },
+		{
+			data: null,
+			"defaultContent": `
+				<button type="button" value="update" class="btn btn-primary mb-1"><i class="fa fa-pencil text-white"></i>Edit</button>
+				<button type="button" value="delete" class="btn btn-danger mb-1"><i class="fa fa-trash"></i>Delete</button>								
+			`
+		},
+	],
+});
+$('#table_dataKataNegatif tbody').on( 'click', 'button', function () {
+	var data = table_dataKataNegatif.row($(this).parents('tr')).data();
+	if($(this).prop("value") == 'update') {
+		$("#modalUbahKataNegatif").find("input[name='kata_negatif']").val(data['negative_word']);
+		$("#modalUbahKataNegatif").find("input[name='id']").val(data['id_negative']);
+		$('#modalUbahKataNegatif').modal('show');
+	}
+	else if($(this).prop("value") == 'delete') {
+		$("#modalHapusKataNegatif").find("p strong").html(data['negative_word']);
+		$("#modalHapusKataNegatif").find("input[name='id']").val(data['id_negative']);
+		$('#modalHapusKataNegatif').modal('show');
+	}
+});
+
+// TAMPIL TABEL DATA SLANGWORD [START]
+var table_dataSlangword = $('#table_dataSlangword').DataTable({
+	"deferRender": true,
+	"ajax": "/kamus/list-slangword",
+	"columns": [
+		{
+			data: null, 
+			"render": function (data, type, full, meta) {
+				return  meta.row + 1;
+			}
+		},
+		{ data: 'slangword' },
+		{ data: 'kata_asli' },
+		{
+			data: null,
+			"defaultContent": `
+				<button type="button" value="update" class="btn btn-primary mb-1"><i class="fa fa-pencil text-white"></i>Edit</button>
+				<button type="button" value="delete" class="btn btn-danger mb-1"><i class="fa fa-trash"></i>Delete</button>								
+			`
+		},
+	],
+});
+// AKSI UPDATE DAN DELETE SLANGWORD DENGAN MODAL
+$('#table_dataSlangword tbody').on( 'click', 'button', function () {
+	var data = table_dataSlangword.row($(this).parents('tr')).data();
+	if($(this).prop("value") == 'update') {
+		$("#modalUbahSlangword").find("input[name='slangword']").val(data['slangword']);
+		$("#modalUbahSlangword").find("input[name='kata_asli']").val(data['kata_asli']);
+		$("#modalUbahSlangword").find("input[name='id']").val(data['id_slangword']);
+		$('#modalUbahSlangword').modal('show');
+	}
+	else if($(this).prop("value") == 'delete') {
+		$("#modalHapusSlangword").find("p strong").html(data['slangword']);
+		$("#modalHapusSlangword").find("input[name='id']").val(data['id_slangword']);
+		$('#modalHapusSlangword').modal('show');
+	}
+});
+// TAMPIL TABEL DATA SLANGWORD [END]
+
+
+// TAMPIL TABEL DATA STOPWORD [START]
+var table_dataStopword = $('#table_dataStopword').DataTable({
+	"deferRender": true,
+	"ajax": "/kamus/list-stopword",
+	"columns": [
+		{
+			data: null, 
+			"render": function (data, type, full, meta) {
+				return  meta.row + 1;
+			}
+		},
+		{ data: 'stopword' },
+		{
+			data: null,
+			"defaultContent": `
+				<button type="button" value="update" class="btn btn-primary mb-1"><i class="fa fa-pencil text-white"></i>Edit</button>
+				<button type="button" value="delete" class="btn btn-danger mb-1"><i class="fa fa-trash"></i>Delete</button>								
+			`
+		},
+	],
+});
+// AKSI UPDATE DAN DELETE STOPWORD DENGAN MODAL
+$('#table_dataStopword tbody').on( 'click', 'button', function () {
+	var data = table_dataStopword.row($(this).parents('tr')).data();
+	if($(this).prop("value") == 'update') {
+		$("#modalUbahStopword").find("input[name='stopword']").val(data['stopword']);
+		$("#modalUbahStopword").find("input[name='id']").val(data['id_stopword']);
+		$('#modalUbahStopword').modal('show');
+	}
+	else if($(this).prop("value") == 'delete') {
+		$("#modalHapusStopword").find("p strong").html(data['stopword']);
+		$("#modalHapusStopword").find("input[name='id']").val(data['id_stopword']);
+		$('#modalHapusStopword').modal('show');
+	}
+});
+
+$('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (event) {
+    $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+});
+// TAMPIL TABEL DATA STOPWORD [END]
+
+
+/**
  *  AJAX PREPROCESSING
  */
 // TAMPIL DATA PREPROCESSING [START]
@@ -80,6 +235,7 @@ $('#preprocessing_data').click(function() {
 				$('#content-preprocessing').html(content);
         $('body').css("overflow", "");
 				$(".loaderDiv").show();
+        $('.modal-backdrop').remove();
 			},
 			success     : function(response) {
 				content +=	`
@@ -176,7 +332,7 @@ $('#preprocessing_data').click(function() {
 // TAMPIL DATA LABELING (DENGAN LABEL) [START]
 var table_dataWithLabel = $('#table_dataWithLabel').DataTable({
 	"deferRender": true,
-	"ajax": "/list_data_with_label",
+	"ajax": "/list-data-with-label",
 	"columns": [
 		{
 			data: null, 
@@ -232,7 +388,7 @@ $('#table_dataWithLabel tbody').on( 'click', 'button', function () {
 // TAMPIL DATA LABELING (TANPA LABEL) [START]
 var table_dataNoLabel = $('#table_dataNoLabel').DataTable({
 	"deferRender": true,
-	"ajax": "/list_data_no_label",
+	"ajax": "/list-data-no-label",
 	"columns": [
 		{
 			data: null, 
@@ -309,7 +465,171 @@ $('#modalLabeling').on('hidden.bs.modal', function () {
  *  AJAX SPLITTING
  */
 
-// TODO
+// TAMPIL DATA SPLIT (TRAINING) [START]
+var table_dataTrain = $('#table_dataTrain').DataTable({
+	"deferRender": true,
+	"ajax": "/split/list-data-train",
+	"columns": [
+		{
+			data: null, 
+			"render": function (data, type, full, meta) {
+				return  meta.row + 1;
+			}
+		},
+		{
+			data: null,
+			"render": function(data, type, full, meta) {
+				return BigInt(data.id).toString();
+			}
+		},
+		{
+			data: null,
+			className: 'text-left',
+			"render": function (data, type, full, meta) {
+				return data.clean_text +'<br /><button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm float-right mt-2"><i class="fa fa-search"></i> Lihat Tweet Asli</button>'
+			},
+		},
+		{ data: 'user' },
+		{
+			data: null,
+			"render": function(data, type, full, meta) {
+           		return moment(data.created_at).format("LLL");
+			}
+		},
+		{
+			data: null,
+			"render": function (data, type, full, meta) {
+				if(data.sentiment_type == 'positif') {
+					return '<label class="btn btn-success disabled">POSITIF</label>';
+				}
+				else if(data.sentiment_type == 'negatif') {
+					return '<label class="btn btn-danger disabled">NEGATIF</label>';
+				}
+				return '<label class="btn btn-secondary disabled">NETRAL</label>';
+			},
+		},
+	],
+});
+// AKSI LIHAT TWEET ASLI DENGAN MODAL
+$('#table_dataTrain tbody').on( 'click', 'button', function () {
+	var data = table_dataTrain.row($(this).parents('tr')).data();
+	if($(this).prop("value") == 'modalTweetAsli') {
+		$("#modalLihatTweetAsli").find("p[id='tweetAsli']").html(data['text']);
+		$("#modalLihatTweetAsli").find("p[id='tweetBersih']").html(data['clean_text']);
+		$('#modalLihatTweetAsli').modal('show');
+	}
+});
+// TAMPIL DATA SPLIT (TRAINING) [END]
+
+
+// TAMPIL DATA SPLIT (TESTING) [START]
+var table_dataTest = $('#table_dataTest').DataTable({
+	"deferRender": true,
+	"ajax": "/split/list-data-test",
+	"columns": [
+		{
+			data: null, 
+			"render": function (data, type, full, meta) {
+				return  meta.row + 1;
+			}
+		},
+		{
+			data: null,
+			"render": function(data, type, full, meta) {
+				return BigInt(data.id).toString();
+			}
+		},
+		{
+			data: null,
+			className: 'text-left',
+			"render": function (data, type, full, meta) {
+				return data.clean_text +'<br /><button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm float-right mt-2"><i class="fa fa-search"></i> Lihat Tweet Asli</button>'
+			},
+		},
+		{ data: 'user' },
+		{
+			data: null,
+			"render": function(data, type, full, meta) {
+           		return moment(data.created_at).format("LLL");
+			}
+		},
+		{
+			data: null,
+			"render": function (data, type, full, meta) {
+				if(data.sentiment_type == 'positif') {
+					return '<label class="btn btn-success disabled">POSITIF</label>';
+				}
+				else if(data.sentiment_type == 'negatif') {
+					return '<label class="btn btn-danger disabled">NEGATIF</label>';
+				}
+				return '<label class="btn btn-secondary disabled">NETRAL</label>';
+			},
+		},
+	],
+});
+// AKSI LIHAT TWEET ASLI DENGAN MODAL
+$('#table_dataTest tbody').on( 'click', 'button', function () {
+	var data = table_dataTest.row($(this).parents('tr')).data();
+	if($(this).prop("value") == 'modalTweetAsli') {
+		$("#modalLihatTweetAsli").find("p[id='tweetAsli']").html(data['text']);
+		$("#modalLihatTweetAsli").find("p[id='tweetBersih']").html(data['clean_text']);
+		$('#modalLihatTweetAsli').modal('show');
+	}
+});
+// TAMPIL DATA SPLIT (TESTING) [END]
+
+// AJAX - SPLIT DATA
+$('#split_data').click(function() {
+	
+	var form_dataArray = $('form').serializeArray();
+	var jumlah_data_with_label = parseInt($('#jumlah_dataWithLabel').html());
+	
+	// validasi data split
+	$('#validasi_split').addClass('d-none');
+	$('#validasi_rasio').addClass('d-none');
+	if(jumlah_data_with_label > 0 && form_dataArray[0]['name'].trim() == 'rasio' && (form_dataArray[0]['value'] == '1:9' || form_dataArray[0]['value'] == '2:8')) {
+		var content =	"";
+		
+		$.ajax({
+			url         : "/split",
+			data		: $('form').serialize(),
+			type        : "POST",
+			beforeSend: function() {
+				content +=	`
+								<div class="bs-callout bs-callout-primary mt-0">
+									<div class="d-inline-flex">
+										<h3>Pembagian Data</h3>
+									</div>
+									<p class="text-muted">Membagi data ber<em>label</em> menjadi Data Uji dan Data Latih</p>
+								</div>
+								<br />
+								<div class="loaderDiv my-5 m-auto"></div>
+							`;
+							
+				$('#content_split').html(content);
+				$('.modal-backdrop').remove();
+				$(".loaderDiv").show();
+			},
+			success     : function(response) {
+				if(response) {
+					window.location = "/split";
+				}
+			},
+			error     : function(x) {
+				console.log(x.responseText);
+			}
+		});
+	}
+	else {
+		if(jumlah_data_with_label <= 0) {
+			$('#validasi_split').removeClass('d-none');
+		}
+		if(form_dataArray.length <= 1) {
+			$('#validasi_rasio').removeClass('d-none');
+		}
+	}
+});
+
 
 /**
  *  AJAX MODELING
