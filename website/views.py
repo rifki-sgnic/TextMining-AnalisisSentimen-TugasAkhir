@@ -1,10 +1,12 @@
 import json
+from urllib import response
 from flask import Blueprint, jsonify, render_template, request, flash, redirect, url_for
 from website.controllers.crawling import CrawlingController
 
 from website.controllers.dashboard import DashboardController
 from website.controllers.kamus import KamusController
 from website.controllers.labeling import LabelingController
+from website.controllers.classification import ClassificationController
 from website.controllers.preprocessing import PreprocessingController
 from website.controllers.splitting import SplittingController
 
@@ -212,7 +214,17 @@ controller_splitting = SplittingController()
 def split():
     if request.method == 'GET':
         count_data_with_label = controller_splitting.count_dataWithLabel()
-        return render_template('splitting.html', count_data_with_label=count_data_with_label)
+        count_data_with_label_pos = controller_splitting.count_dataWithLabelPos()
+        count_data_with_label_neg = controller_splitting.count_dataWithLabelNeg()
+
+        percentage_pos = round((count_data_with_label_pos / count_data_with_label) * 100)
+        percentage_neg = round((count_data_with_label_neg / count_data_with_label) * 100)
+
+        return render_template("splitting.html", count_data_with_label=count_data_with_label, 
+        count_data_with_label_pos=count_data_with_label_pos, 
+        count_data_with_label_neg=count_data_with_label_neg,
+        percentage_pos=percentage_pos,
+        percentage_neg=percentage_neg)
     
     if request.method == 'POST':
         response = controller_splitting.add_dataSplit()
@@ -232,3 +244,15 @@ def list_data_test():
 def hapus_dataSplit():
     controller_splitting.delete_allDataSplit()
     return redirect(url_for('views.split'))
+
+# CLASSIFICATION
+controller_classification = ClassificationController()
+@views.route('/classification', methods=['GET','POST'])
+def classification():
+    if request.method == 'GET':
+        data_eval = controller_classification.getEvaluation()
+        return render_template("classification.html", data_eval=data_eval)
+
+    if request.method == 'POST':
+        response = controller_classification.createModel()
+        return response

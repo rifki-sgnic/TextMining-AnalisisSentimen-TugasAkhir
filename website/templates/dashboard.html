@@ -2,103 +2,96 @@
 {% block title %}Dashboard{% endblock title %}
 {% block content %}
 <div class="text-center">
-	<div class="container w-75 text-center">
-		<h4>Analisis Sentimen Masyarakat Terhadap Layanan Indihome Menggunakan Algoritme <em>Multinomial Naive Bayes</em></h4>
-		<h5>1811501327 - Muhammad Rifki</h5>
-	</div>
-	<hr>
-	<div class="row">
-		<div class="col-md-4 mb-4">
-			<div class="card">
-				<div class="card-header">
-					<a href="{{ url_for('views.crawling') }}" class="text-decoration-none text-dark">
-						Jumlah data <em>Crawling</em> <i class='bx bxl-twitter' ></i>
-					</a>
-				</div>
-				<div class="card-body align-items-center text-muted ">
-					<h4 class="mb-0 text-dark">{{ data.data_crawling }}</h4>
-					<p>Data <em>Crawling</em></p>
-					<a href="{{ url_for('views.crawling') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 mb-4">
-			<div class="card">
-				<div class="card-header">
-					<a href="{{ url_for('views.preprocessing') }}" class="text-decoration-none text-dark">
-						Jumlah data <em>Preprocessing</em> <i class="fa fa-cog"></i>
-					</a>
-				</div>
-				<div class="card-body align-items-center text-muted ">
-					<h4 class="mb-0 text-dark">{{ data.data_preprocess }}</h4>
-					<p>Data <em>Preprocessing</em></p>
-					<a href="{{ url_for('views.preprocessing') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 mb-4">
-			<div class="card">
-				<div class="card-header">
-					<a href="{{ url_for('views.labeling') }}" class="text-decoration-none text-dark">
-						Jumlah data ber<em>label</em> <i class="fa fa-tags"></i>
-					</a>
-				</div>
-				<div class="card-body align-items-center text-muted ">
-					<h4 class="mb-0 text-dark">{{ data.data_berlabel }}</h4>
-					<p>Data ber<em>label</em></p>
-					<a href="{{ url_for('views.labeling') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 mb-4">
-			<div class="card">
-				<div class="card-header">
-					<a href="#" class="text-decoration-none text-dark">
-						Jumlah data Latih
-					</a>
-				</div>
-				<div class="card-body align-items-center text-muted ">
-					<h4 class="mb-0 text-dark"></h4>
-					<p>Data Latih</p>
-					<a href="#" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 mb-4">
-			<div class="card">
-				<div class="card-header">
-					<a href="/split" class="text-decoration-none text-dark">
-						Jumlah data Uji
-					</a>
-				</div>
-				<div class="card-body align-items-center text-muted ">
-					<h4 class="mb-0 text-dark"></h4>
-					<p>Data Uji</p>
-					<a href="/split" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4 mb-4">
-			<div class="card border-0">
-				<div class="card-body align-items-center text-muted mt-2">
-					<a href="/modeling" class="btn btn-primary btn-sm w-75 mb-3">Buat sebuah <em>model</em> <i class="fa fa-cogs"></i></a>
-					<a href="/evaluation" class="btn btn-primary btn-sm w-75 mb-3">Lakukan Pengujian <i class="fa fa-list-ul"></i></a>
-					<a href="/visualization" class="btn btn-primary btn-sm w-75 mb-3">Visualisai hasil <i class="fa fa-bar-chart"></i></a>
-				</div>
-			</div>
-		</div>
+  <div class="container w-75 text-center">
+    <h4>Analisis Sentimen Masyarakat Terhadap Kenaikan Harga Tiket Candi Borobudur Menggunakan Algoritme <em>Multinomial Naive Bayes</em></h4>
+    <h5>1811501327 - Muhammad Rifki</h5>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('views.crawling') }}" class="text-decoration-none text-dark">
+            Jumlah data <em>Crawling</em> <i class='bx bxl-twitter' ></i>
+          </a>
+        </div>
+        <div class="card-body align-items-center text-muted ">
+          <h4 class="mb-0 text-dark">{{ data.data_crawling }}</h4>
+          <p>Data <em>Crawling</em></p>
+          <a href="{{ url_for('views.crawling') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('views.preprocessing') }}" class="text-decoration-none text-dark">
+            Jumlah data <em>Preprocessing</em> <i class="fa fa-cog"></i>
+          </a>
+        </div>
+        <div class="card-body align-items-center text-muted ">
+          <h4 class="mb-0 text-dark">{{ data.data_preprocess }}</h4>
+          <p>Data <em>Preprocessing</em></p>
+          <a href="{{ url_for('views.preprocessing') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('views.labeling') }}" class="text-decoration-none text-dark">
+            Jumlah data ber<em>label</em> <i class="fa fa-tags"></i>
+          </a>
+        </div>
+        <div class="card-body align-items-center text-muted ">
+          <h4 class="mb-0 text-dark">{{ data.data_berlabel }}</h4>
+          <p>Data ber<em>label</em></p>
+          <a href="{{ url_for('views.labeling') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('views.split') }}" class="text-decoration-none text-dark">
+            Jumlah data Latih
+          </a>
+        </div>
+        <div class="card-body align-items-center text-muted ">
+          <h4 class="mb-0 text-dark" id="countDataLabelTrain">{{ data.data_train }}</h4>
+          <p>Data Latih</p>
+          <a href="{{ url_for('views.split') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('views.split') }}" class="text-decoration-none text-dark">
+            Jumlah data Uji
+          </a>
+        </div>
+        <div class="card-body align-items-center text-muted ">
+          <h4 class="mb-0 text-dark" id="countDataLabelTest">{{ data.data_test }}</h4>
+          <p>Data Uji</p>
+          <a href="{{ url_for('views.split') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">Chart Data Latih dan Uji</div>
           <div class="card-body">
+            <p id="countDataLabelPos" hidden>{{ data.data_pos }}</p>
+            <p id="countDataLabelNeg" hidden>{{ data.data_neg }}</p>
             <canvas class="chart" width="400" height="200"></canvas>
           </div>
         </div>
       </div>
     </div>
-		
-	</div>
+    
+  </div>
 </div>
 
 {% endblock content %}

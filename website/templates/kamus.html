@@ -10,33 +10,31 @@
     <p class="text-muted">Daftar Kamus Data</p>
   </div>
 
-    {% with messages = get_flashed_messages(category_filter=["success"]) %}
-			{% if messages %}
-				{% for message in messages %}
-					<div class="alert alert-success alert-dismissible fade show" role="alert">
-						{{ message }}
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</button>
-					</div>
-				{% endfor %}
-			{% endif %}
-		{% endwith %}
+  {% with messages = get_flashed_messages(category_filter=["success"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
-		{% with messages = get_flashed_messages(category_filter=["error"]) %}
-			{% if messages %}
-				{% for message in messages %}
-					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						{{ message }}
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</button>
-					</div>
-				{% endfor %}
-			{% endif %}
-		{% endwith %}
+  {% with messages = get_flashed_messages(category_filter=["error"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
   <div id="content_kamus">
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="kata-positif-tab" data-bs-toggle="tab" data-bs-target="#kata-positif-tab-pane" type="button" role="tab" aria-controls="kata-positif-tab-pane" aria-selected="true">Kata Positif</button>
       </li>

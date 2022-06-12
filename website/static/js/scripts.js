@@ -6,17 +6,21 @@ btn_menu.onclick = function () {
 };
 
 const charts = document.querySelectorAll(".chart");
+countDataLabelTrain = $("#countDataLabelTrain").html()
+countDataLabelTest = $("#countDataLabelTest").html()
+countDataLabelPos = $("#countDataLabelPos").html()
+countDataLabelNeg = $("#countDataLabelNeg").html()
 
 charts.forEach(function (chart) {
   var ctx = chart.getContext("2d");
   var myChart = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: ["Data Latih", "Data Uji"],
+      labels: ["Data Latih", "Data Uji", "Data Positif", "Data Negatif"],
       datasets: [
         {
           label: "# of Data",
-          data: [802, 201],
+          data: [countDataLabelTrain, countDataLabelTest, countDataLabelPos, countDataLabelNeg],
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
             "rgba(54, 162, 235, 0.2)",
@@ -74,6 +78,7 @@ function getHtmlDateString(date) {
 // Data Table
 $(document).ready(function () {
   $("#table_dataCrawling").DataTable();
+  $("#table_dataPredict").DataTable();
 });
 
 // Mencari rasio data tes dan data latih

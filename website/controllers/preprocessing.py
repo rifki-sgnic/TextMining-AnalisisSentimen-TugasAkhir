@@ -41,29 +41,29 @@ class PreprocessingController:
             for index, data in enumerate(data_preprocess):
                 first_data.append(data['text'])
 
-                result_text = data['text'].lower() #casefolding
+                result_text = data['text'].lower() # Casefolding
                 casefolding.append(result_text)
                 
-                #cleaning
-                result_text = re.sub(r'http\S+|@\S+|#\S+|\d+', '', result_text)
-                result_text = re.sub(r'[^a-z ]', '', result_text)
-                result_text = result_text.strip()
-                result_text = re.sub('\s+', ' ', result_text)
+                # Cleaning
+                result_text = re.sub(r'http\S+|@\S+|#\S+|\d+', '', result_text) # Menghapus mention, hashtag, link
+                result_text = re.sub(r'[^a-z ]', '', result_text)   # Menghapus karakter selain huruf a-z
+                result_text = result_text.strip()   # Menghapus spasi berlebih di akhir kata
+                result_text = re.sub('\s+', ' ', result_text) # Menghapis spasi berlebih di antara kata
                 remove_non_char.append(result_text)
                 
-                #change slangwords
+                # Change slangwords
                 for slang in slangwords:
                     if slang['slangword'] in result_text:
                         result_text = re.sub(r'\b{}\b'.format(slang['slangword']), slang['kata_asli'], result_text)
                 change_slangword.append(result_text)
                 
-                #remove stopwords
+                # Remove stopwords
                 for stop in stopwords:
                     if stop['stopword'] in result_text:
                         result_text = re.sub(r'\b{}\b'.format(stop['stopword']), '', result_text)
                 remove_stopword.append(result_text)
                 
-                #stemming
+                # Stemming
                 result_text = stemmer.stem(result_text)
                 change_stemming.append(result_text)
 

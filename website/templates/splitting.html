@@ -11,12 +11,12 @@
     </div>
 
     <div class="d-flex flex-row mb-3">
-      <button type="button" class="btn btn-success w-25 mx-1" data-bs-toggle="modal" data-bs-target="#modalSplitting"><i class='bx bx-analyse'></i> <em>Splitting</em> Data</button>
+      <button type="button" class="btn btn-success w-25 mx-1" data-bs-toggle="modal" data-bs-target="#modalSplitting"><i class="bx bx-columns"></i> <em>Splitting</em> Data</button>
       <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataSplit"><i class='bx bx-trash'></i> Hapus Data Split</button>
     </div>
 
     <div>
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="data-train-tab" data-bs-toggle="tab" data-bs-target="#data-train-tab-pane" type="button" role="tab" aria-controls="data-train-tab-pane" aria-selected="true">Data Train</button>
         </li>
@@ -78,7 +78,10 @@
           </div>
           <form>
             <div class="modal-body px-5">
-              <label class="text-muted d-inline-flex align-items-center mb-0">Sebanyak <h4 class="text-info mx-2 mb-0" id="jumlah_dataWithLabel">{{ count_data_with_label }}</h4> data ber<em>label</em> akan dibagi</label>
+              <label class="text-muted d-inline-flex align-items-center mb-1">Pembagian data dilakukan dengan Stratified Random Sampling</label>
+              <label class="text-muted d-inline-flex align-items-center mb-1">Sebanyak <h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabel">{{ count_data_with_label }}</h5> data ber<em>label</em> akan dibagi</label>
+              <label class="text-muted d-inline-flex align-items-center mb-1">Pembagian data sebanyak: </label>
+              <label class="text-muted d-inline-flex align-items-center mb-0"><h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabelPos">{{ percentage_pos }}%</h5> Positif <h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabelNeg">{{ percentage_neg }}%</h5> Negatif</h5></label>
               <br />
               <small class="text-info d-none fadeIn" id="validasi_split">
                 <i class="fa fa-info-circle"></i> Silakan lakukan proses '<em>Labeling</em>' terlebih dahulu

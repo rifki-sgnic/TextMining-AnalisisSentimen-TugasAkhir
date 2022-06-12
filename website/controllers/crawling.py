@@ -1,6 +1,5 @@
 from flask import flash, request
 from website.models import Models
-from website.api import Api
 from website.excel import Excel
 
 class CrawlingController:

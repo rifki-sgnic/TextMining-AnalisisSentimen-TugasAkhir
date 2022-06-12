@@ -1,6 +1,8 @@
+from datetime import datetime
 import math
 import random
 from flask import request
+import pandas as pd
 from website.models import Models
 
 
@@ -10,6 +12,16 @@ class SplittingController:
         instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_tweet_clean WHERE sentiment_type IS NOT NULL')
         data_labeling = instance_model.select()
         return data_labeling[0]['jumlah']
+
+    def count_dataWithLabelPos(self):
+        instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_tweet_clean WHERE sentiment_type = "positif"')
+        data_pos = instance_model.select()
+        return data_pos[0]['jumlah']
+    
+    def count_dataWithLabelNeg(self):
+        instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_tweet_clean WHERE sentiment_type = "negatif"')
+        data_neg = instance_model.select()
+        return data_neg[0]['jumlah']
 
     def select_dataTrain(self):
         instance_model = Models('SELECT * FROM tbl_tweet_training')
@@ -30,44 +42,38 @@ class SplittingController:
 
     def add_dataSplit(self):
         rasio = request.form['rasio']
-        jumlah_data = float(request.form['jumlah_data'])
 
         if rasio == '1:9':
-            jumlah_dataTest = math.floor(jumlah_data * 0.1)
-            jumlah_dataTrain = math.ceil(jumlah_data * 0.9)
-        elif rasio == '2:8':
-            jumlah_dataTest = math.floor(jumlah_data * 0.2)
-            jumlah_dataTrain = math.ceil(jumlah_data * 0.8)
+            rasio_train = 0.9
 
-        # Split data train lalu latih
-        # value 0 = Data Test || value 1 = Data Train
-        data_flag = []
-        for i in range(int(jumlah_data)):
-            if i < jumlah_dataTrain:
-                data_flag.append(1)
-            else:
-                data_flag.append(0)
-        
-        # Random list data split
-        random.shuffle(data_flag)
+        elif rasio == '2:8':
+            rasio_train = 0.8
 
         # Select data tweet berlabel
         instance_model = Models('SELECT * FROM tbl_tweet_clean WHERE sentiment_type IS NOT NULL')
         data_withLabel = instance_model.select()
 
+        df = pd.DataFrame(data_withLabel)
+
+        # Membagi data train dan test dengan Stratified Sampling (Rasio label pada data latih dan uji sesuai dengan rasio label sebelum split data)
+        train = df.groupby('sentiment_type', group_keys=False).apply(lambda x: x.sample(frac=rasio_train))
+        test = df.drop(train.index)
+
         data_simpan_train = []
         data_simpan_test = []
 
-        for index, data in enumerate(data_withLabel):
-            if data_flag[index] == 0:
-                data_simpan_test.append((data['id'], data['text'], data['clean_text'], data['user'], data['created_at'], data['sentiment_type']))
-            else :
-                data_simpan_train.append((data['id'], data['text'], data['clean_text'], data['user'], data['created_at'], data['sentiment_type']))
-
-        instance_model = Models('INSERT IGNORE tbl_tweet_testing(id, text, clean_text, user, created_at, sentiment_type) VALUES (%s, %s, %s, %s, %s, %s)')
-        instance_model.query_sql_multiple(data_simpan_test)
+        for index, data in train.iterrows():
+            train_tuples = (data['id'], data['text'], data['clean_text'], data['user'], str(datetime.strftime(datetime.strptime(str(data['created_at']),'%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')), data['sentiment_type'])
+            data_simpan_train.append(train_tuples)
 
         instance_model = Models('INSERT IGNORE tbl_tweet_training(id, text, clean_text, user, created_at, sentiment_type) VALUES (%s, %s, %s, %s, %s, %s)')
         instance_model.query_sql_multiple(data_simpan_train)
+
+        for index, data in test.iterrows():
+            test_tuples = (data['id'], data['text'], data['clean_text'], data['user'], str(datetime.strftime(datetime.strptime(str(data['created_at']),'%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')), data['sentiment_type'])
+            data_simpan_test.append(test_tuples)
+
+        instance_model = Models('INSERT IGNORE tbl_tweet_testing(id, text, clean_text, user, created_at, sentiment_type) VALUES (%s, %s, %s, %s, %s, %s)')
+        instance_model.query_sql_multiple(data_simpan_test)
 
         return 'true'
