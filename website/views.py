@@ -9,6 +9,7 @@ from website.controllers.labeling import LabelingController
 from website.controllers.classification import ClassificationController
 from website.controllers.preprocessing import PreprocessingController
 from website.controllers.splitting import SplittingController
+from website.controllers.visualization import VisualizationController
 
 views = Blueprint('views', __name__)
 
@@ -25,68 +26,6 @@ controller_kamus = KamusController()
 @views.route('/kamus', methods=['GET'])
 def kamus():
     return render_template("kamus.html")
-
-## Positif
-@views.route('/kamus/list-kata-positif', methods=['GET'])
-def list_kata_positif():
-    data_positif = controller_kamus.select_dataKataPositif()
-    return { 'data' : data_positif }
-
-@views.route('/kamus/kata-positif/tambah', methods=['POST'])
-def tambah_kata_positif():
-    controller_kamus.add_dataKataPositif()
-    return redirect(url_for('views.kamus'))
-
-@views.route('/kamus/kata-positif/import', methods=['POST'])
-def import_kata_positif():
-    controller_kamus.import_dataKataPositif()
-    return redirect(url_for('views.kamus'))
-
-@views.route('/kamus/kata-positif/ubah', methods=['POST'])
-def ubah_kata_positif():
-    controller_kamus.update_dataKataPositif()
-    return redirect(url_for('views.kamus'))
-
-@views.route('/kamus/kata-positif/hapus', methods=['POST'])
-def hapus_kata_positif():
-    controller_kamus.delete_dataKataPositif()
-    return redirect(url_for('views.kamus'))
-
-@views.route('/kamus/kata-positif/hapus-all', methods=['POST'])
-def hapus_all_kata_positif():
-    controller_kamus.delete_allDataKataPositif()
-    return redirect(url_for('views.kamus'))
-
-## Negatif
-@views.route('/kamus/list-kata-negatif')
-def list_kata_negatif():
-    data_negatif = controller_kamus.select_dataKataNegatif()
-    return { 'data' : data_negatif }
-
-@views.route('/kamus/kata-negatif/tambah', methods=['POST'])
-def tambah_kata_negatif():
-    controller_kamus.add_dataKataNegatif()
-    return redirect(url_for('views.kamus'))
-
-@views.route('/kamus/kata-negatif/import', methods=['POST'])
-def import_data_kata_negatif():
-    controller_kamus.import_dataKataNegatif()
-    return redirect(url_for('views.kamus'))
-
-@views.route('/kamus/kata-negatif/ubah', methods=['POST'])
-def ubah_kata_negatif():
-    controller_kamus.update_dataKataNegatif()
-    return redirect(url_for('views.kamus'))
-
-@views.route('/kamus/kata-negatif/hapus', methods=['POST'])
-def hapus_kata_negatif():
-    controller_kamus.delete_dataKataNegatif()
-    return redirect(url_for('views.kamus'))
-
-@views.route('/kamus/kata-negatif/hapus-all', methods=['POST'])
-def hapus_all_kata_negatif():
-    controller_kamus.delete_allDataKataNegatif()
-    return redirect(url_for('views.kamus'))
 
 ## Slangword
 @views.route('/kamus/list-slangword', methods=['GET'])
@@ -206,6 +145,11 @@ def list_data_no_label():
     data_no_label = controller_labeling.select_dataNoLabel()
     return { 'data' : data_no_label }
 
+@views.route('/labeling/hapus-all', methods=['POST'])
+def hapus_all_label():
+    controller_labeling.delete_dataLabeling()
+    return redirect(url_for('views.labeling'))
+
 
 # SPLITTING DATA
 controller_splitting = SplittingController()
@@ -217,8 +161,15 @@ def split():
         count_data_with_label_pos = controller_splitting.count_dataWithLabelPos()
         count_data_with_label_neg = controller_splitting.count_dataWithLabelNeg()
 
-        percentage_pos = round((count_data_with_label_pos / count_data_with_label) * 100)
-        percentage_neg = round((count_data_with_label_neg / count_data_with_label) * 100)
+        if count_data_with_label_pos != 0:
+            percentage_pos = round((count_data_with_label_pos / count_data_with_label) * 100)
+        else:
+            percentage_pos = 0
+
+        if count_data_with_label_neg != 0:
+            percentage_neg = round((count_data_with_label_neg / count_data_with_label) * 100)
+        else:
+            percentage_neg = 0
 
         return render_template("splitting.html", count_data_with_label=count_data_with_label, 
         count_data_with_label_pos=count_data_with_label_pos, 
@@ -256,3 +207,25 @@ def classification():
     if request.method == 'POST':
         response = controller_classification.createModel()
         return response
+
+@views.route('/classification/hapus-data', methods=['POST'])
+def hapus_evaluation():
+    controller_classification.deleteEvalutaion()
+    return redirect(url_for('views.classification'))
+
+# VISUALISASI
+controller_visualisasi = VisualizationController()
+@views.route('/visualization', methods=['GET', 'POST'])
+def visualization():
+    if request.method == 'GET':
+        data = controller_visualisasi.getVisualisasi()
+        return render_template('visualization.html', data=data)
+    
+    if request.method == 'POST':
+        response = controller_visualisasi.createVisualisasi()
+        return response
+
+@views.route('/visualization/hapus-data', methods=['POST'])
+def hapus_visualization():
+    controller_visualisasi.deleteVisualisasi()
+    return redirect(url_for('views.visualization'))

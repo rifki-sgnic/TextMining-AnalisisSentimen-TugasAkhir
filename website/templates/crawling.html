@@ -23,42 +23,9 @@
     {% endif %}
   {% endwith %}
 
-  <div class="col-md-12 text-center mb-3">
-    <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalCrawling"><i class="fa fa-twitter"></i> <em>Crawling</em> Data</button>
-    <em>atau</em>
+  <div class="d-flex flex-row mb-3">
     <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalImport"><i class='bx bxs-file-plus' ></i> <em>Import</em> Data</button>
-  </div>
-
-  <!-- Modal Crawling -->
-  <div class="modal fade" tabindex="-1" id="modalCrawling">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Crawling Data</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form>
-          <div class="modal-body px-5">
-            <div class="form-group">
-              <label>Kata Kunci Pencarian</label>
-              <input type="text" name="kata_kunci" id="kata_kunci" class="form-control" placeholder="#IndihomeCare" required />
-            </div>
-            <div class="form-group">
-              <label>Tanggal Awal Tweet</label>
-              <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" required />
-            </div>
-            <div class="form-group">
-              <label>Tanggal Akhir Tweet</label>
-              <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control" required />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-            <button type="button" id="crawling_data" class="btn btn-primary">Mulai</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataCrawling"><i class='bx bx-trash'></i> Hapus Data Crawling</button>
   </div>
 
   <!-- Modal Import Excel -->
@@ -85,8 +52,8 @@
     </div>
   </div>
 
-  <div class="table-responsive-sm p-5">
-    <table class="table table-bordered table-striped text-center w-100" id="table_dataCrawling">
+  <div class="table-responsive-sm">
+    <table class="table table-bordered table-striped w-100" id="table_dataCrawling">
       <thead class="w-100">
         <tr>
           <th width="5%" class="text-center">No.</th>
@@ -99,11 +66,11 @@
       <tbody>
         {% for row in data %}
         <tr>
-          <td>{{ loop.index }}</td>
-          <td>{{ row['id'] }}</td>
+          <td class="text-center">{{ loop.index }}</td>
+          <td class="text-center">{{ row['id'] }}</td>
           <td>{{ row['text'] }}</td>
-          <td>{{ row['user'] }}</td>
-          <td>{{ row['created_at'] }}</td>
+          <td class="text-center">{{ row['user'] }}</td>
+          <td class="text-center">{{ row['created_at'] }}</td>
         </tr>
         {% endfor %}
       </tbody>

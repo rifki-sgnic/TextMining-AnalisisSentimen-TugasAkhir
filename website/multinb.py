@@ -7,8 +7,6 @@ class MultiNB:
     
     def _prior(self): # CHECKED
         """
-        Calculates prior for each unique class in y. P(y)
-
         Menghitung prior untuk setiap unique class dalam y. P(y)
         """
         P = np.zeros((self.n_classes_))
@@ -19,21 +17,10 @@ class MultiNB:
             
     def fit(self, X, y): # CHECKED, matches with sklearn
         """
-        Calculates the following things- 
-            class_priors_ is list of priors for each y.
-            N_yi: 2D array. Contains for each class in y, the number of time each feature i appears under y.
-            N_y: 1D array. Contains for each class in y, the number of all features appear under y.
-            
         Menghitung hal-hal berikut-
             class_priors_ merupakan sebuah list prior dari setiap y
             N_yi: array 2D. Berisikan setiap kelas dalam y, berapa kali setiap fitur i muncul dalam y
             N_y: array 1D. Berisikan setiap kelas dalam y, jumlah seluruh fitur muncul dalam y. 
-
-        params
-        ------
-        X: 2D array. shape(n_samples, n_features)
-            Multinomial data
-        y: 1D array. shape(n_samples,). Labels must be encoded to integers.
 
         params
         ------
@@ -47,7 +34,6 @@ class MultiNB:
         self.n_classes_ = self.classes_.shape[0]
         self.class_priors_ = self._prior()
         
-        # distinct values in each features
         # Membedakan nilai dalam setiap fitur
         self.uniques = []
         for i in range(self.n_features):
@@ -67,20 +53,8 @@ class MultiNB:
             
     def _theta(self, x_i, i, h):
         """
-        Calculates theta_yi. aka P(xi | y) using eqn(1) in the notebook.
 
         Menghitung theta_yi atau P(xi | y) dengan eqn(1) dalam notebook.
-        
-        params
-        ------
-        x_i: int. 
-            feature x_i
-            
-        i: int.
-            feature index. 
-            
-        h: int or string.
-            a class in y
 
         params
         ------
@@ -108,17 +82,9 @@ class MultiNB:
     
     def _likelyhood(self, x, h):
         """
-        Calculates P(E|H) = P(E1|H) * P(E2|H) .. * P(En|H).
 
         Menghitung P(E|H) = P(E1|H) * P(E2|H) .. * P(En|H).
         
-        params
-        ------
-        x: array. shape(n_features,)
-            a row of data.
-        h: int. 
-            a class in y
-
         params
         ------
         x: array. shape(n_fitur,)

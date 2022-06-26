@@ -1,11 +1,8 @@
-from datetime import datetime
-
-import pandas as pd
 from sklearn.metrics import confusion_matrix
 from website.models import Models
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelBinarizer
-from flask import json
+from flask import flash, json
 import pickle
 import os
 
@@ -15,36 +12,36 @@ from website.multinb import MultiNB
 class ClassificationController:
     def createModel(self):
 
-        instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_tweet_training WHERE clean_text IS NOT NULL AND sentiment_type IS NOT NULL')
+        instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_data_train WHERE clean_text IS NOT NULL AND sentiment IS NOT NULL')
         sentiment_count = instance_model.select()
 
-        instance_model = Models("SELECT COUNT(id) as positif FROM tbl_tweet_training WHERE clean_text IS NOT NULL AND sentiment_type = 'positif'")
+        instance_model = Models("SELECT COUNT(id) as positif FROM tbl_data_train WHERE clean_text IS NOT NULL AND sentiment = 'positif'")
         sentiment_positif = instance_model.select()
 
-        instance_model = Models("SELECT COUNT(id) as negatif FROM tbl_tweet_training WHERE clean_text IS NOT NULL AND sentiment_type = 'negatif'")
+        instance_model = Models("SELECT COUNT(id) as negatif FROM tbl_data_train WHERE clean_text IS NOT NULL AND sentiment = 'negatif'")
         sentiment_negatif = instance_model.select()
 
         # Data Training
         list_text_training = []
         list_label_training = []
 
-        instance_model = Models('SELECT clean_text, sentiment_type FROM tbl_tweet_training')
+        instance_model = Models('SELECT clean_text, sentiment FROM tbl_data_train')
         data_train = instance_model.select()
 
         for i in range(len(data_train)):
             list_text_training.append(data_train[i]['clean_text'])
-            list_label_training.append(data_train[i]['sentiment_type'])
+            list_label_training.append(data_train[i]['sentiment'])
 
         # Data Testing
         list_text_testing = []
         list_label_testing = []
 
-        instance_model = Models('SELECT clean_text, sentiment_type FROM tbl_tweet_testing')
+        instance_model = Models('SELECT clean_text, sentiment FROM tbl_data_test')
         data_test = instance_model.select()
 
         for i in range(len(data_test)):
             list_text_testing.append(data_test[i]['clean_text'])
-            list_label_testing.append(data_test[i]['sentiment_type'])
+            list_label_testing.append(data_test[i]['sentiment'])
 
         # Vectorize X_train X_test
         vectorizer = TfidfVectorizer()
@@ -65,7 +62,7 @@ class ClassificationController:
         model.fit(X_train, y_train)
 
         # SAVE MODEL as PKL
-        filename = 'mnb_model('+ datetime.today().strftime('%d-%m-%Y %H%M%S') +').pkl'
+        filename = 'mnb_model.pkl'
         path = 'website/static/model_data/'
         with open(os.path.join(path, filename), 'wb') as out_name:
             pickle.dump(model, out_name, pickle.HIGHEST_PROTOCOL)
@@ -116,7 +113,9 @@ class ClassificationController:
         with open(os.path.join(path, 'hasil_evaluasi_model.json'), 'w') as outfile:
             json.dump(data_dict, outfile, indent=2)
 
-        return { 'model_name' : filename, 'sentiment_count': sentiment_count[0]['jumlah'], 'sentiment_positive': sentiment_positif[0]['positif'], 'sentiment_negative': sentiment_negatif[0]['negatif'], 'data_dict' : data_dict }
+        flash('Berhasil melakukan klasifikasi data.', 'success')
+
+        return 'true'
 
     def getEvaluation(self):
         path = 'website/static/model_data/'
@@ -128,3 +127,13 @@ class ClassificationController:
             data = None
         
         return data
+
+
+    def deleteEvalutaion(self):
+        filepath = 'website/static/model_data/hasil_evaluasi_model.json'
+
+        if os.path.exists(filepath):
+            os.remove(filepath)
+            flash('Berhasil menghapus data.', 'success')
+
+        return None

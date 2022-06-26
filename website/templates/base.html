@@ -36,7 +36,7 @@
           <i class="bx bxl-flask"></i>
           <div class="logo-name">TEXT MINING</div>
         </div>
-        <i class="bx bx-menu" id="btn-menu"></i>
+        <a id="btn-menu"><i class="bx bx-menu-alt-left"></i></a>
       </div>
       <ul class="nav-list">
         <li>
@@ -48,7 +48,7 @@
         </li>
         <li>
           <a href="{{ url_for('views.kamus') }}">
-            <i class="bx bxs-book-add"></i>
+            <i class='bx bx-book-add' ></i>
             <span class="link-name">Kamus Data</span>
           </a>
           <span class="tool-tip">Kamus Data</span>
@@ -88,6 +88,13 @@
           </a>
           <span class="tool-tip">Classification</span>
         </li>
+        <li>
+          <a href="{{ url_for('views.visualization') }}">
+            <i class='bx bx-bar-chart-alt-2'></i>
+            <span class="link-name">Visualization</span>
+          </a>
+          <span class="tool-tip">Visualization</span>
+        </li>
       </ul>
       <div class="profile-content">
         <div class="profile">
@@ -121,8 +128,6 @@
       src="{{ url_for('static', filename='js/bootstrap.min.js') }}"
     ></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
-
     <script
       type="text/javascript"
       src="{{ url_for('static', filename='js/jquery-3.5.1.js') }}"
@@ -141,6 +146,11 @@
     <script
       type="text/javascript"
       src="{{ url_for('static', filename='js/moment-with-locales.js') }}"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/chart.js') }}"
     ></script>
 
     <script

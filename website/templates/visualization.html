@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% block title %}Visualisasi{% endblock title %}
+{% block content %}
+
+<div class="col-md-12 col-sm-12" id="content_visualization">
+  <div class="bs-callout bs-callout-primary mt-0">
+    <div class="d-inline-flex">
+      <h3>Visualisasi Data</h3>
+    </div>
+    <p class="text-muted">Menampilkan data hasil penelitian</p>
+  </div>
+
+  {% with messages = get_flashed_messages(category_filter=["success"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% with messages = get_flashed_messages(category_filter=["error"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div>
+    <div class="d-flex flex-row mb-3">
+      <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalVisualisasi"><i class='bx bx-cog'></i> Buat Visualisasi Data</button>
+      <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusVisualisasi"><i class='bx bx-trash'></i> Hapus Data Visualisasi</button>
+    </div>
+
+    {% if data != None %}
+
+    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="hist-distribusi-tab" data-bs-toggle="tab" data-bs-target="#hist-distribusi-tab-pane" type="button" role="tab" aria-controls="hist-distribusi-tab-pane" aria-selected="true">Histogram Distribusi</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pie-chart-sentimen-tab" data-bs-toggle="tab" data-bs-target="#pie-chart-sentimen-tab-pane" type="button" role="tab" aria-controls="pie-chart-sentimen-tab-pane" aria-selected="false">Piechart Sentimen</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="wordcloud-tab" data-bs-toggle="tab" data-bs-target="#wordcloud-tab-pane" type="button" role="tab" aria-controls="wordcloud-tab-pane" aria-selected="false">Wordcloud</button>
+      </li>
+    </ul>
+
+    <div class="tab-content p-3" id="myTabContent">
+      <div class="tab-pane fade show active" id="hist-distribusi-tab-pane" role="tabpanel" aria-labelledby="hist-distribusi-tab" tabindex="0">
+        <div class="col-md-12 m-2">
+          <h4 class="text-center">Grafik distribusi tweet berdasarkan waktu perolehan.<br /> {{ data.jumlah_tweets }} Data Tweet</h4>
+          <div>
+            <img src="../static/visualisasi/histogram_dist_waktu.png" alt="histogram" class="img-fluid">
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="pie-chart-sentimen-tab-pane" role="tabpanel" aria-labelledby="pie-chart-sentimen-tab" tabindex="0">
+        <div class="col-md-12 m-2">
+          <h4 class="text-center">Pie Chart persentase sentimen pada {{ data.jumlah_tweets }} Data Tweet. <br />{{ data.jumlah_pos }} tweet positif ({{ data.persentase_pos }} %) & {{ data.jumlah_neg }} tweet negatif ({{ data.persentase_neg }} %)</h4>
+          <div>
+            <img src="../static/visualisasi/pie_sentimen.png" alt="piechart sentimen" class="img-fluid mx-auto d-block">
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="wordcloud-tab-pane" role="tabpanel" aria-labelledby="wordcloud-tab" tabindex="0">
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <h4 class="text-center"><em>Word Cloud</em> dataset <em>tweet</em> bersentimen positif</h4>
+            <div>
+              <img src="../static/visualisasi/wordcloud_positif.png" alt="wordcloud positif" class="img-fluid">
+            </div>
+            <div class="container mt-4">
+              <table class="table table-bordered table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Kata</th>
+                    <th>Frekuensi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for data in data.frekuensi_pos %}
+                    <tr>
+                      <td>{{ loop.index }}</td>
+                      <td>{{ data[0] }}</td>
+                      <td>{{ data[1] }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h4 class="text-center"><em>Word Cloud</em> dataset <em>tweet</em> bersentimen negatif</h4>
+            <div>
+              <img src="../static/visualisasi/wordcloud_negatif.png" alt="wordcloud negatif" class="img-fluid">
+            </div>
+            <div class="container mt-4">
+              <table class="table table-bordered table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Kata</th>
+                    <th>Frekuensi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for data in data.frekuensi_neg %}
+                    <tr>
+                      <td>{{ loop.index }}</td>
+                      <td>{{ data[0] }}</td>
+                      <td>{{ data[1] }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% else %}
+    <div class="container-fluid mt-4 pt-3">
+      <h5><i class="fa fa-warning text-warning"></i> {{ data['error'] }}</h5>
+      <p class="text-muted">Pastikan telah terdapat <em>dataset</em> yang telah diberikan <em>label</em> (ber<em>label</em>) pada basis data.</p>
+    </div>
+
+    {% endif %}
+    <!-- Modal Visualisasi -->
+    <div class="modal fade" tabindex="-1" id="modalVisualisasi">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Visualisasi data</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form>
+            <div class="modal-body mx-3">
+              <p class="my-2">Akan dibuat Visualisasi data dari tanggal saat ini</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button type="button" id="visualization" class="btn btn-primary">Buat</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Hapus data Visualisasi -->
+    <div class="modal fade" tabindex="-1" id="modalHapusVisualisasi">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Hapus Data</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body mx-3">
+            <p class="my-2">Apakah Anda yakin ingin menghapus data Visualisasi?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <form action="/visualization/hapus-data" method="POST">
+              <button type="submit" class="btn btn-danger">Hapus</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock content %}

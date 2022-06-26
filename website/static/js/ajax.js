@@ -1,81 +1,6 @@
 /**
- *  AJAX CRAWLING
- */
-
-// TODO
-
-/**
  * 	AJAX KAMUS
  */
-// TAMPIL DATA KATA POSITIF [START]
-var table_dataKataPositif = $('#table_dataKataPositif').DataTable({
-    "deferRender": true,
-    "ajax": "/kamus/list-kata-positif",
-    "columns": [
-        {
-            data: null, 
-            "render": function (data, type, full, meta) {
-                return  meta.row + 1;
-            }
-        },
-        { data: 'positive_word' },
-        {
-            data: null,
-            "defaultContent": `
-                <button type="button" value="update" class="btn btn-primary mb-1"><i class="fa fa-pencil text-white"></i>Edit</button>
-                <button type="button" value="delete" class="btn btn-danger mb-1"><i class="fa fa-trash"></i>Delete</button>								
-            `
-        },
-    ],
-});
-$('#table_dataKataPositif tbody').on( 'click', 'button', function () {
-    var data = table_dataKataPositif.row($(this).parents('tr')).data();
-    if($(this).prop("value") == 'update') {
-        $("#modalUbahKataPositif").find("input[name='kata_positif']").val(data['positive_word']);
-        $("#modalUbahKataPositif").find("input[name='id']").val(data['id_positive']);
-        $('#modalUbahKataPositif').modal('show');
-    }
-    else if($(this).prop("value") == 'delete') {
-        $("#modalHapusKataPositif").find("p strong").html(data['positive_word']);
-        $("#modalHapusKataPositif").find("input[name='id']").val(data['id_positive']);
-        $('#modalHapusKataPositif').modal('show');
-    }
-});
-
-// TAMPIL DATA KATA NEGATIF [START]
-var table_dataKataNegatif = $('#table_dataKataNegatif').DataTable({
-    "deferRender": true,
-    "ajax": "/kamus/list-kata-negatif",
-    "columns": [
-        {
-            data: null, 
-            "render": function (data, type, full, meta) {
-                return  meta.row + 1;
-            }
-        },
-        { data: 'negative_word' },
-        {
-            data: null,
-            "defaultContent": `
-                <button type="button" value="update" class="btn btn-primary mb-1"><i class="fa fa-pencil text-white"></i>Edit</button>
-                <button type="button" value="delete" class="btn btn-danger mb-1"><i class="fa fa-trash"></i>Delete</button>								
-            `
-        },
-    ],
-});
-$('#table_dataKataNegatif tbody').on( 'click', 'button', function () {
-    var data = table_dataKataNegatif.row($(this).parents('tr')).data();
-    if($(this).prop("value") == 'update') {
-        $("#modalUbahKataNegatif").find("input[name='kata_negatif']").val(data['negative_word']);
-        $("#modalUbahKataNegatif").find("input[name='id']").val(data['id_negative']);
-        $('#modalUbahKataNegatif').modal('show');
-    }
-    else if($(this).prop("value") == 'delete') {
-        $("#modalHapusKataNegatif").find("p strong").html(data['negative_word']);
-        $("#modalHapusKataNegatif").find("input[name='id']").val(data['id_negative']);
-        $('#modalHapusKataNegatif').modal('show');
-    }
-});
 
 // TAMPIL TABEL DATA SLANGWORD [START]
 var table_dataSlangword = $('#table_dataSlangword').DataTable({
@@ -168,13 +93,15 @@ var table_dataPreprocessing = $('#table_dataPreprocessing').DataTable({
     "ajax": "/list-data-preprocessing",
     "columns": [
         {
-            data: null, 
+            data: null,
+            className: 'text-center',
             "render": function (data, type, full, meta) {
                 return  meta.row + 1;
             }
         },
         {
             data: null,
+            className: 'text-center',
             "render": function(data, type, full, meta) {
                 return BigInt(data.id).toString();
             }
@@ -183,12 +110,21 @@ var table_dataPreprocessing = $('#table_dataPreprocessing').DataTable({
             data: null,
             className: 'text-left',
             "render": function (data, type, full, meta) {
-                return data.clean_text +'<br /><button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm float-right mt-2"><i class="bx bx-search"></i> Lihat Tweet Asli</button>'
+                return data.clean_text +`<br />
+                <div class="d-flex justify-content-center">
+                    <button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm mt-2">
+                        <i class="bx bx-search"></i> Detail Tweet
+                    </button>
+                </div>`
             },
         },
-        { data: 'user' },
+        { 
+            data: 'user',
+            className: 'text-center',
+        },
         {
             data: null,
+            className: 'text-center',
             "render": function(data, type, full, meta) {
                    return moment(data.created_at).format("LLL");
             }
@@ -201,6 +137,11 @@ $('#table_dataPreprocessing tbody').on( 'click', 'button', function () {
     var data = table_dataPreprocessing.row($(this).parents('tr')).data();
     if($(this).prop("value") == 'modalTweetAsli') {
         $("#modalLihatTweetAsli").find("p[id='tweetAsli']").html(data['text']);
+        $("#modalLihatTweetAsli").find("p[id='casefolding']").html(data['casefolding']);
+        $("#modalLihatTweetAsli").find("p[id='cleansing']").html(data['cleaning']);
+        $("#modalLihatTweetAsli").find("p[id='slangword']").html(data['slangword']);
+        $("#modalLihatTweetAsli").find("p[id='stopword']").html(data['stopword']);
+        $("#modalLihatTweetAsli").find("p[id='stemming']").html(data['stemming']);
         $("#modalLihatTweetAsli").find("p[id='tweetBersih']").html(data['clean_text']);
         $('#modalLihatTweetAsli').modal('show');
     }
@@ -300,7 +241,7 @@ $('#preprocessing_data').click(function() {
                                   </table>
                               </div>
                               <div class="col-md-6 offset-md-3 col-sm-12 text-center">
-                                  <a href="/preprocessing" class="btn btn-info w-50 text-decoration-none"><i class="fa fa-arrow-left"></i> Kembali</a>
+                                  <a href="/preprocessing" class="btn btn-primary w-50 text-decoration-none"><i class="fa fa-arrow-left"></i> Kembali</a>
                               </div>
                           `;
                 
@@ -335,13 +276,15 @@ var table_dataWithLabel = $('#table_dataWithLabel').DataTable({
     "ajax": "/list-data-with-label",
     "columns": [
         {
-            data: null, 
+            data: null,
+            className: 'text-center',
             "render": function (data, type, full, meta) {
                 return  meta.row + 1;
             }
         },
         {
             data: null,
+            className: 'text-center',
             "render": function(data, type, full, meta) {
                 return BigInt(data.id).toString();
             }
@@ -350,23 +293,34 @@ var table_dataWithLabel = $('#table_dataWithLabel').DataTable({
             data: null,
             className: 'text-left',
             "render": function (data, type, full, meta) {
-                return data.clean_text +'<br /><button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm float-right mt-2"><i class="bx bx-search"></i> Lihat Tweet Asli</button>'
+                return data.clean_text +`<br />
+                <div class="d-flex justify-content-center">
+                    <button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm mt-2">
+                        <i class="bx bx-search"></i> Lihat Tweet Asli
+                    </button>
+                </div>
+                `
             },
         },
-        { data: 'user' },
+        { 
+            data: 'user',
+            className: 'text-center'
+        },
         {
             data: null,
+            className: 'text-center',
             "render": function(data, type, full, meta) {
                    return moment(data.created_at).format("LLL");
             }
         },
         {
             data: null,
+            className: 'text-center',
             "render": function (data, type, full, meta) {
-                if(data.sentiment_type == 'positif') {
+                if(data.sentiment == 'positif') {
                     return '<label class="btn btn-success disabled">POSITIF</label>';
                 }
-                else if(data.sentiment_type == 'negatif') {
+                else if(data.sentiment == 'negatif') {
                     return '<label class="btn btn-danger disabled">NEGATIF</label>';
                 }
                 return '<label class="btn btn-secondary disabled">NETRAL</label>';
@@ -392,6 +346,7 @@ var table_dataNoLabel = $('#table_dataNoLabel').DataTable({
     "columns": [
         {
             data: null, 
+            className: 'text-center',
             "render": function (data, type, full, meta) {
                 return  meta.row + 1;
             }
@@ -400,14 +355,19 @@ var table_dataNoLabel = $('#table_dataNoLabel').DataTable({
             data: null,
             className: 'text-left',
             "render": function (data, type, full, meta) {
-                return data.text +'<br /><button type="button" value="modalLihatCleanTextLabeling" class="btn btn-primary btn-sm float-right mt-2"><i class="bx bx-search"></i> Lihat Teks Bersih</button>'
+                return data.text +`<br />
+                <div class="d-flex justify-content-center">
+                    <button type="button" value="modalLihatCleanTextLabeling" class="btn btn-primary btn-sm mt-2">
+                        <i class="bx bx-search"></i> Lihat Teks Bersih
+                    </button>
+                </div>`
             },
         },
         {
             data: null,
             "render": function () {
                 return `
-                    <select class="custom-select" name="label_data">
+                    <select class="form-select" name="label_data">
                         <option value="" selected disabled>Pilih</option>
                         <option value="positif">Positif</option>
                         <option value="negatif">Negatif</option>
@@ -471,13 +431,15 @@ var table_dataTrain = $('#table_dataTrain').DataTable({
     "ajax": "/split/list-data-train",
     "columns": [
         {
-            data: null, 
+            data: null,
+            className: 'text-center',
             "render": function (data, type, full, meta) {
                 return  meta.row + 1;
             }
         },
         {
             data: null,
+            className: 'text-center',
             "render": function(data, type, full, meta) {
                 return BigInt(data.id).toString();
             }
@@ -486,23 +448,33 @@ var table_dataTrain = $('#table_dataTrain').DataTable({
             data: null,
             className: 'text-left',
             "render": function (data, type, full, meta) {
-                return data.clean_text +'<br /><button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm float-right mt-2"><i class="fa fa-search"></i> Lihat Tweet Asli</button>'
+                return data.clean_text +`<br />
+                <div class="d-flex justify-content-center">
+                    <button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm float-right mt-2">
+                        <i class="fa fa-search"></i> Lihat Tweet Asli
+                    </button>
+                </div>`
             },
         },
-        { data: 'user' },
+        { 
+            data: 'user',
+            className: 'text-center',
+        },
         {
             data: null,
+            className: 'text-center',
             "render": function(data, type, full, meta) {
                    return moment(data.created_at).format("LLL");
             }
         },
         {
             data: null,
+            className: 'text-center',
             "render": function (data, type, full, meta) {
-                if(data.sentiment_type == 'positif') {
+                if(data.sentiment == 'positif') {
                     return '<label class="btn btn-success disabled">POSITIF</label>';
                 }
-                else if(data.sentiment_type == 'negatif') {
+                else if(data.sentiment == 'negatif') {
                     return '<label class="btn btn-danger disabled">NEGATIF</label>';
                 }
                 return '<label class="btn btn-secondary disabled">NETRAL</label>';
@@ -528,13 +500,15 @@ var table_dataTest = $('#table_dataTest').DataTable({
     "ajax": "/split/list-data-test",
     "columns": [
         {
-            data: null, 
+            data: null,
+            className: 'text-center',
             "render": function (data, type, full, meta) {
                 return  meta.row + 1;
             }
         },
         {
             data: null,
+            className: 'text-center',
             "render": function(data, type, full, meta) {
                 return BigInt(data.id).toString();
             }
@@ -543,23 +517,33 @@ var table_dataTest = $('#table_dataTest').DataTable({
             data: null,
             className: 'text-left',
             "render": function (data, type, full, meta) {
-                return data.clean_text +'<br /><button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm float-right mt-2"><i class="fa fa-search"></i> Lihat Tweet Asli</button>'
+                return data.clean_text +`<br />
+                <div class="d-flex justify-content-center">
+                    <button type="button" value="modalTweetAsli" class="btn btn-primary btn-sm float-right mt-2">
+                        <i class="fa fa-search"></i> Lihat Tweet Asli
+                    </button>
+                </div>`
             },
         },
-        { data: 'user' },
+        { 
+            data: 'user', 
+            className: 'text-center' 
+        },
         {
             data: null,
+            className: 'text-center',
             "render": function(data, type, full, meta) {
                    return moment(data.created_at).format("LLL");
             }
         },
         {
             data: null,
+            className: 'text-center',
             "render": function (data, type, full, meta) {
-                if(data.sentiment_type == 'positif') {
+                if(data.sentiment == 'positif') {
                     return '<label class="btn btn-success disabled">POSITIF</label>';
                 }
-                else if(data.sentiment_type == 'negatif') {
+                else if(data.sentiment == 'negatif') {
                     return '<label class="btn btn-danger disabled">NEGATIF</label>';
                 }
                 return '<label class="btn btn-secondary disabled">NETRAL</label>';
@@ -632,138 +616,77 @@ $('#split_data').click(function() {
 
 
 /**
- *  AJAX MODELING
+ *  AJAX CLASSIFICATION
  */
 
- $('#modeling_data').click(function() {
-
+ $('#classification').click(function() {
+    
     var content =	"";
         
         $.ajax({
-            url         : "/modeling",
+            url         : "/classification",
             data		: $('form').serialize(),
             type        : "POST",
             beforeSend: function() {
-                content +=	`	
+                content +=	`
+                                <div class="bs-callout bs-callout-primary mt-0">
+                                    <div class="d-inline-flex">
+                                        <h3>Klasifikasi Data</h3>
+                                    </div>
+                                    <p class="text-muted">Membuat Model Latih dengan Data Latih dan Melakukan Klasifikasi</p>
+                                </div>
                                 <br />
                                 <div class="loaderDiv my-5 m-auto"></div>
                             `;
                             
-                $('#content_modeling').html(content);
-                $('body').css("overflow", "");
-                $(".loaderDiv").show();
+                $('#content_classification').html(content);
                 $('.modal-backdrop').remove();
+                $(".loaderDiv").show();
             },
             success     : function(response) {
-                if(response.error) {
-                    content = response.error;
+                if(response) {
+                    window.location = "/classification";
                 }
-                else {
-                    content = 	`
-                        <div class="col-md-8 offset-md-2 col-sm-12 text-center border border-success rounded shadow py-4 mb-4">
-                            <label class="text-center mb-0">
-                                <p class="mb-0 text-muted"> Berhasil melakukan <em>modeling</em>.</p>
-                                <p class="mb-0 text-muted"><em>Model</em> latih <span class="h6">`+ response.model_name +`</span> telah disimpan!</p>
-                            </label>
-                        </div>
-                        <div class="container-fluid text-mute">
-                            <h5>Komposisi data <em>model</em>:</h5>
-                            <pre>
-    <span class="h6 text-dark">`+ response.model_name +`</span>
-    └── <span class="h6">`+ response.sentiment_count +`</span> Data Latih
-        ├── <span class="h6 text-success">`+ response.sentiment_positive +`</span> bersentimen <span class="text-success">Positif</span>
-        └── <span class="h6 text-danger">`+ response.sentiment_negative +`</span> bersentimen <span class="text-danger">Negatif</span>
-                        </pre>
-                        </div>
-                    `;
-                    const data_dict = response.data_dict
-                    
-                    content += 	`
-                                    <h5 class="container-fluid">Tabel Hasil Prediksi</h5>
-                                    <div class="table-responsive">	
-                                        <table class="table table-sm table-bordered" id="table_dataPredict">
-                                            <thead class="text-center">
-                                                <tr>
-                                                    <th width="5%" class="text-center">No.</th>
-                                                    <th width="65%" class="text-center">Teks</th>
-                                                    <th width="15%" class="text-center">Label Aktual</th>
-                                                    <th width="15%" class="text-center">Label Prediksi</th>
-                                                </tr>	
-                                            </thead>
-                                            <tbody>
-                                `;
-                    
-                    // for(let i=0; i<data_dict.teks_list.length; i++) {
-                    for(let i=0; i<data_dict.text_list.length; i++) {
-                            content += 	`
-                                                <tr>
-                                                    <td class="text-center"><em>Tweet</em> ke-`+ (i+1) +`</td>
-                                                    <td class="text-left">`+ data_dict.text_list[i]+`</td>
-                                                    <td class="text-left">`+ data_dict.label_list[i]+`</td>
-                                                    <td class="text-left">`+ data_dict.predict_label[i]+`</td>
-                                                </tr>
-                                        `;
-                    }
-                    content += 	`
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <br />
-                                    <h5 class="container-fluid"> Confustion Matrix </h5>
-                                    <div class="table-responsive">	
-                                        <table class="table table-sm table-bordered">
-                                            <thead class="text-center">
-                                                    <tr>
-                                                    <td colspan="2" rowspan="2" style="border-top-color: white;	border-left-color: white;"></td>
-                                                    <td colspan="2" class="align-middle">Data Aktual</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="align-middle">Positif</td>
-                                                    <td class="align-middle">Negatif</td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td rowspan="2" class="align-middle p-0">Data Prediksi</td>
-                                                    <td class="align-middle">Positif</td>
-                                                    <td>
-                                                        <h5 class="mb-0 text-dark">`+ response.data_dict['tp'] +`</h5>
-                                                        <small>TP (<em>True Positive</em>)</small>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="mb-0 text-dark">`+ response.data_dict['fp'] +`</h5>
-                                                        <small>FP (<em>False Positive</em>)</small>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="align-middle">Negatif</td>
-                                                    <td>
-                                                        <h5 class="mb-0 text-dark">`+ response.data_dict['fn'] +`</h5>
-                                                        <small>FN (<em>False Negatif</em>)</small>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="mb-0 text-dark">`+ response.data_dict['tn'] +`</h5>
-                                                        <small>TN (<em>True Negatif</em>)</small>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                `;
+            },
+            error     : function(x) {
+                console.log(x.responseText);
+            }
+        });
+});
 
-                    content += 	`				
-                                    <div class="col-md-6 offset-md-3 col-sm-12 text-center mt-3">
-                                        <a href="/modeling" class="btn btn-info w-50 text-decoration-none"><i class="fa fa-arrow-left"></i> Kembali</a>
+
+/**
+ *  AJAX VISUALIZATION
+ */
+
+ $('#visualization').click(function() {
+    
+    var content =	"";
+        
+        $.ajax({
+            url         : "/visualization",
+            data		: $('form').serialize(),
+            type        : "POST",
+            beforeSend: function() {
+                content +=	`
+                                <div class="bs-callout bs-callout-primary mt-0">
+                                    <div class="d-inline-flex">
+                                        <h3>Visualisasi Data</h3>
                                     </div>
-                                `;
-                }
-                
-                $('#content_modeling').html(content);
-                
-                $(".loaderDiv").hide();
-                
-                $('body').removeClass('modal-open');
+                                    <p class="text-muted">Menampilkan data hasil penelitian</p>
+                                </div>
+                                <br />
+                                <div class="loaderDiv my-5 m-auto"></div>
+                            `;
+                            
+                $('#content_visualization').html(content);
                 $('.modal-backdrop').remove();
+                $(".loaderDiv").show();
+            },
+            success     : function(response) {
+                if(response) {
+                    window.location = "/visualization";
+                }
             },
             error     : function(x) {
                 console.log(x.responseText);

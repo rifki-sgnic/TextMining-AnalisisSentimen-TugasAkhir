@@ -1,10 +1,10 @@
 /* Google Fonts CDN Link */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 body{
@@ -20,7 +20,7 @@ body{
   height: 100%;
   width: 78px;
   padding: 6px 14px;
-  background: #11101d;
+  /* background: #11101d; */
   transition: all 0.5s ease;
   z-index: 1;
 }
@@ -30,7 +30,7 @@ body{
 }
 
 .sidebar .logo-content .logo{
-  color: #fff;
+  color: #25396f;
   display: flex;
   height: 50px;
   width: 100%;
@@ -58,7 +58,7 @@ body{
 
 .sidebar #btn-menu{
   position: absolute;
-  color: #fff;
+  color: #435ebe;
   left: 50%;
   top: 6px;
   font-size: 20px;
@@ -117,18 +117,18 @@ body{
 }
 
 .sidebar ul li a{
-  color: #fff;
+  color: #25396f;
   display: flex;
   align-items: center;
   text-decoration: none;
-  transition: all 0.4s ease;
+  transition: all 0.2s ease;
   border-radius: 12px;
   white-space: nowrap;
 }
 
 .sidebar ul li a:hover{
-  color: #11101d;
-  background: #fff;
+  color: #fff;
+  background: #435ebe;
 }
 
 .sidebar ul li i{
@@ -167,7 +167,7 @@ body{
 }
 
 .sidebar.active .profile-content .profile{
-  background: #1d1b31;
+  background: #25396f;
 }
 
 .profile-content .profile .profile-details{
@@ -211,7 +211,7 @@ body{
   border-radius: 12px;
   text-align: center;
   transition: all 0.4s ease;
-  background: #1d1b31;
+  background: #435ebe;
   cursor: pointer;
 }
 
@@ -222,7 +222,7 @@ body{
 
 .main {
   position: absolute;
-  background: #f5f5f5;
+  background: #f2f7ff;
   padding: 2rem;
   min-height: 100%;
   width: calc(100% - 78px);
@@ -270,4 +270,32 @@ body{
 
 .bs-callout-primary {
   border-left-color: #428bca;
+}
+
+.stats-icon {
+  align-items: center;
+  background-color: #000;
+  border-radius: 0.5rem;
+  display: flex;
+  float: right;
+  height: 3.5rem;
+  justify-content: center;
+  width: 3.5rem;
+}
+
+.stats-icon i {
+  color: #fff;
+  font-size: 2rem;
+}
+
+.blue {
+  background-color: #57caeb;
+}
+
+.green {
+  background-color: #5ddab4;
+}
+
+.red {
+  background-color: #ff7976;
 }

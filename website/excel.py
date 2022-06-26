@@ -21,24 +21,6 @@ class Excel:
 
         return tweets_container
 
-    # Fungsi menyimpan data_crawling dalam file excel (.xlsx)
-    def save_crawling_excel(self, tweets):
-        id = []
-        text = []
-        username = []
-        created_at = []
-
-        for tweet in tweets():
-            id.append(tweet['id'])
-            text.append(str(tweet['full_text']))
-            username.append(str(tweet['user']['screen_name']))
-            created_at.append(str(tweet['created_at']))
-
-        df = pd.DataFrame({'id': id, 'text': text, 'username': username, 'created_at': created_at})
-        df.to_excel(self.file_excel_crawling, index=False)
-
-        print('File excel telah dibuat di lokasi: /:root_project/' + self.file_excel_crawling)
-        return None
 
     # Fungsi membuat tuple dari data excel slangword
     def make_tuples_slangwords(self, df):

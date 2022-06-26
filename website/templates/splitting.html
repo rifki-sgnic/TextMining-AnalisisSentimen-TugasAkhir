@@ -3,15 +3,37 @@
 {% block content %}
 
 <div class="col-md-12 col-sm-12" id="content_split">
-    <div class="bs-callout bs-callout-primary mt-0">
-      <div class="d-inline-flex">
-        <h3>Pembagian Data</h3>
-      </div>
-      <p class="text-muted">Membagi data ber<em>label</em> menjadi Data Uji dan Data Latih</p>
+  <div class="bs-callout bs-callout-primary mt-0">
+    <div class="d-inline-flex">
+      <h3>Pembagian Data</h3>
     </div>
+    <p class="text-muted">Membagi data ber<em>label</em> menjadi Data Uji dan Data Latih</p>
+  </div>
+
+  {% with messages = get_flashed_messages(category_filter=["success"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% with messages = get_flashed_messages(category_filter=["error"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
     <div class="d-flex flex-row mb-3">
-      <button type="button" class="btn btn-success w-25 mx-1" data-bs-toggle="modal" data-bs-target="#modalSplitting"><i class="bx bx-columns"></i> <em>Splitting</em> Data</button>
+      <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalSplitting"><i class="bx bx-columns"></i> <em>Splitting</em> Data</button>
       <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataSplit"><i class='bx bx-trash'></i> Hapus Data Split</button>
     </div>
 
@@ -30,7 +52,7 @@
       <div class="tab-pane fade show active" id="data-train-tab-pane" role="tabpanel" aria-labelledby="data-train-tab" tabindex="0">
         
         <div class="table-responsive-sm">
-          <table class="table table-bordered table-striped text-center w-100" id="table_dataTrain">
+          <table class="table table-bordered table-striped w-100" id="table_dataTrain">
             <thead class="w-100">
               <tr>
                 <th width="5%" class="text-center">No.</th>
@@ -49,7 +71,7 @@
       <div class="tab-pane fade" id="data-test-tab-pane" role="tabpanel" aria-labelledby="data-test-tab" tabindex="0">
         
         <div class="table-responsive-sm">
-          <table class="table table-bordered table-striped text-center w-100" id="table_dataTest">
+          <table class="table table-bordered table-striped w-100" id="table_dataTest">
             <thead class="w-100">
               <tr>
                 <th width="5%" class="text-center">No.</th>

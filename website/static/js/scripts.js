@@ -5,76 +5,6 @@ btn_menu.onclick = function () {
   sidebar.classList.toggle("active");
 };
 
-const charts = document.querySelectorAll(".chart");
-countDataLabelTrain = $("#countDataLabelTrain").html()
-countDataLabelTest = $("#countDataLabelTest").html()
-countDataLabelPos = $("#countDataLabelPos").html()
-countDataLabelNeg = $("#countDataLabelNeg").html()
-
-charts.forEach(function (chart) {
-  var ctx = chart.getContext("2d");
-  var myChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: ["Data Latih", "Data Uji", "Data Positif", "Data Negatif"],
-      datasets: [
-        {
-          label: "# of Data",
-          data: [countDataLabelTrain, countDataLabelTest, countDataLabelPos, countDataLabelNeg],
-          backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-          ],
-          borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  });
-});
-
-// validasi untuk tanggal pengambilan crawling awal
-var min = new Date();
-min.setDate(min.getDate() - 7);
-$("#tanggal_awal").attr("min", getHtmlDateString(min));
-$("#tanggal_akhir").attr("min", getHtmlDateString(min));
-$("#tanggal_awal").on("change paste keyup", function () {
-  $("#tanggal_akhir").attr("min", $("#tanggal_awal").val());
-
-  var date1 = new Date($(this).val());
-  var date2 = new Date($("#tanggal_akhir").val());
-  if (date1 > date2) {
-    $("#tanggal_akhir").val($("#tanggal_awal").val());
-  }
-});
-
-// validasi untuk tanggal pengambilan crawling akhir
-var max = new Date();
-max.setDate(max.getDate());
-$("#tanggal_awal").attr("max", getHtmlDateString(max));
-$("#tanggal_akhir").attr("max", getHtmlDateString(max));
-
-// generate tanggal(yyy-mm-dd) berdasarkan parameter instance date
-function getHtmlDateString(date) {
-  var dd = date.getDate();
-  var mm = date.getMonth() + 1;
-  var yyyy = date.getFullYear();
-  if (dd < 10) {
-    dd = "0" + dd;
-  }
-  if (mm < 10) {
-    mm = "0" + mm;
-  }
-  return yyyy + "-" + mm + "-" + dd;
-}
-
 // Data Table
 $(document).ready(function () {
   $("#table_dataCrawling").DataTable();
@@ -114,3 +44,73 @@ function cariRasio(kode) {
     );
   }
 }
+
+var jumlah_data_crawling = $('#countDataCrawling').html();
+var jumlah_data_preprocess = $('#countDataPreprocess').html()
+var jumlah_data_with_label = $('#countDataLabel').html();
+var jumlah_data_train = $('#countDataTrain').html();
+var jumlah_data_test = $('#countDataTest').html();
+var jumlah_data_positif = $('#countDataLabelPos').html();
+var jumlah_data_negatif = $('#countDataLabelNeg').html();
+var jumlah_data_slangword = $('#countDataSlangword').html();
+var jumlah_data_stopword = $('#countDataStopword').html();
+
+const ctx = document.getElementById('myChart');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Crawling', 'Preprocess', 'Label', 'Slangword', 'Stopword'],
+        datasets: [{
+            label: 'Data',
+            data: [
+              jumlah_data_crawling, 
+              jumlah_data_preprocess, 
+              jumlah_data_with_label, 
+              jumlah_data_slangword, 
+              jumlah_data_stopword
+            ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+const ctxSplit = document.getElementById('chart-split-data').getContext('2d');
+const chartSplit = new Chart(ctxSplit, {
+    type: 'doughnut',
+    data: {
+      labels: [
+        'Train',
+        'Test'
+      ],
+      datasets: [{
+        label: 'Pembagian Data',
+        data: [jumlah_data_train, jumlah_data_test],
+        backgroundColor: [
+          'rgb(54, 162, 235)',
+          'rgb(255, 99, 132)'
+        ],
+        hoverOffset: 4
+      }]
+    }
+});

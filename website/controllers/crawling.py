@@ -5,7 +5,7 @@ from website.excel import Excel
 class CrawlingController:
 
     def select_data_crawling(self):
-        instance_model = Models('SELECT * FROM tbl_tweet_crawling')
+        instance_model = Models('SELECT * FROM tbl_data_crawling')
         data_crawling = instance_model.select()
         return data_crawling
 
@@ -17,7 +17,7 @@ class CrawlingController:
             instance_excel = Excel()
             tuples_excel = instance_excel.make_tuples_crawling(excel_file)
 
-            instance_model = Models('REPLACE INTO tbl_tweet_crawling(id, text, user, created_at) VALUES (%s, %s, %s, %s)')
+            instance_model = Models('REPLACE INTO tbl_data_crawling(id, text, user, created_at) VALUES (%s, %s, %s, %s)')
             instance_model.query_sql_multiple(tuples_excel)
             return None
 

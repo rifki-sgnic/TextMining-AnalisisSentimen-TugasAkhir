@@ -1,96 +1,116 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard{% endblock title %}
 {% block content %}
-<div class="text-center">
-  <div class="container w-75 text-center">
-    <h4>Analisis Sentimen Masyarakat Terhadap Kenaikan Harga Tiket Candi Borobudur Menggunakan Algoritme <em>Multinomial Naive Bayes</em></h4>
-    <h5>1811501327 - Muhammad Rifki</h5>
-  </div>
-  <hr>
+
+<div class="container w-75 text-center">
+  <h3>Implementasi <em>Multinomial Naive Bayes</em> untuk Analisis Sentimen Masyarakat Terhadap Kenaikan Harga Tiket Candi Borobudur pada Media Sosial Twitter</h3>
+  <h4>1811501327 - Muhammad Rifki</h4>
+</div>
+<hr>
+<div class="col-12 col-lg-9 mb-4">
   <div class="row">
-    <div class="col-md-4 mb-4">
+    <div class="col-6 col-lg-4 col-md-6">
+
       <div class="card">
-        <div class="card-header">
-          <a href="{{ url_for('views.crawling') }}" class="text-decoration-none text-dark">
-            Jumlah data <em>Crawling</em> <i class='bx bxl-twitter' ></i>
-          </a>
-        </div>
-        <div class="card-body align-items-center text-muted ">
-          <h4 class="mb-0 text-dark">{{ data.data_crawling }}</h4>
-          <p>Data <em>Crawling</em></p>
-          <a href="{{ url_for('views.crawling') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="stats-icon blue">
+                <i class='bx bxl-twitter' ></i>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <h5>Data <em>Crawling</em></h5>
+              <h4 class="text-dark" id="countDataCrawling">{{ data.data_crawling }}</h4>
+            </div>
+            <div class="d-flex justify-content-center">
+              <a href="{{ url_for('views.crawling') }}" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
-    <div class="col-md-4 mb-4">
+    <div class="col-6 col-lg-4 col-md-6">
+
       <div class="card">
-        <div class="card-header">
-          <a href="{{ url_for('views.preprocessing') }}" class="text-decoration-none text-dark">
-            Jumlah data <em>Preprocessing</em> <i class="fa fa-cog"></i>
-          </a>
-        </div>
-        <div class="card-body align-items-center text-muted ">
-          <h4 class="mb-0 text-dark">{{ data.data_preprocess }}</h4>
-          <p>Data <em>Preprocessing</em></p>
-          <a href="{{ url_for('views.preprocessing') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="stats-icon green">
+                <i class="bx bx-analyse"></i>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <h5>Data <em>Preprocessing</em></h5>
+              <h4 class="text-dark" id="countDataPreprocess">{{ data.data_preprocess }}</h4>
+            </div>
+            <div class="d-flex justify-content-center">
+              <a href="{{ url_for('views.preprocessing') }}" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
-    <div class="col-md-4 mb-4">
+    <div class="col-6 col-lg-4 col-md-6">
       <div class="card">
-        <div class="card-header">
-          <a href="{{ url_for('views.labeling') }}" class="text-decoration-none text-dark">
-            Jumlah data ber<em>label</em> <i class="fa fa-tags"></i>
-          </a>
-        </div>
-        <div class="card-body align-items-center text-muted ">
-          <h4 class="mb-0 text-dark">{{ data.data_berlabel }}</h4>
-          <p>Data ber<em>label</em></p>
-          <a href="{{ url_for('views.labeling') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-header">
-          <a href="{{ url_for('views.split') }}" class="text-decoration-none text-dark">
-            Jumlah data Latih
-          </a>
-        </div>
-        <div class="card-body align-items-center text-muted ">
-          <h4 class="mb-0 text-dark" id="countDataLabelTrain">{{ data.data_train }}</h4>
-          <p>Data Latih</p>
-          <a href="{{ url_for('views.split') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-header">
-          <a href="{{ url_for('views.split') }}" class="text-decoration-none text-dark">
-            Jumlah data Uji
-          </a>
-        </div>
-        <div class="card-body align-items-center text-muted ">
-          <h4 class="mb-0 text-dark" id="countDataLabelTest">{{ data.data_test }}</h4>
-          <p>Data Uji</p>
-          <a href="{{ url_for('views.split') }}" class="btn btn-primary btn-sm">Lihat Detail <i class="fa fa-search"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">Chart Data Latih dan Uji</div>
-          <div class="card-body">
-            <p id="countDataLabelPos" hidden>{{ data.data_pos }}</p>
-            <p id="countDataLabelNeg" hidden>{{ data.data_neg }}</p>
-            <canvas class="chart" width="400" height="200"></canvas>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="stats-icon red">
+                <i class="bx bx-purchase-tag"></i>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <h5>Data ber<em>label</em></h5>
+              <h4 class="text-dark" id="countDataLabel">{{ data.data_berlabel }}</h4>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <a href="{{ url_for('views.labeling') }}" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
           </div>
         </div>
       </div>
     </div>
-    
+
+  </div>
+  <div class="row">
+    <div class="col-12 mt-4">
+      <div class="card">
+        <div class="card-body">
+          <p id="countDataTrain" hidden>{{ data.data_train }}</p>
+          <p id="countDataTest" hidden>{{ data.data_test }}</p>
+          <p id="countDataSlangword" hidden>{{ data.data_slangword }}</p>
+          <p id="countDataStopword" hidden>{{ data.data_stopword }}</p>
+          <h4 class="card-title text-center">Chart Data</h4>
+          <canvas id="myChart" height="100"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 col-lg-3">
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-center">Chart Pembagian Data</h4>
+        <canvas id="chart-split-data"></canvas>
+        <!-- <p>{{ data.data_train / (data.data_train + data.data_test) }} : {{ data.data_test / (data.data_train + data.data_test) }}</p> -->
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card mt-4">
+      <div class="card-body">
+        <div class="vstack gap-2 mx-auto">
+          <a href="{{ url_for('views.split') }}" class="btn btn-outline-primary btn-sm">Buat Pembagian Data</a>
+          <a href="{{ url_for('views.classification') }}" class="btn btn-outline-primary btn-sm">Buat Klasifikasi Data</a>
+          <a href="#" class="btn btn-outline-primary btn-sm">Buat Visualisasi Data</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
