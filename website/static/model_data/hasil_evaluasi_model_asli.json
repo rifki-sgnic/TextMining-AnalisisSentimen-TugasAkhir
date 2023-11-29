@@ -1,0 +1,364 @@
+{
+  "akurasi": 0.81,
+  "fn": 3,
+  "fp": 5,
+  "jumlah_kelas": 2,
+  "label_list": [
+    "negatif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "positif",
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "positif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "negatif",
+    "negatif",
+    "positif",
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "positif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "negatif"
+  ],
+  "predict_label": [
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "positif",
+    "negatif",
+    "positif",
+    "positif",
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "positif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "positif",
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "negatif",
+    "positif",
+    "positif",
+    "positif",
+    "negatif",
+    "positif",
+    "negatif",
+    "negatif"
+  ],
+  "predict_prob": [
+    [
+      0.9538959444810413,
+      0.04610405551895876
+    ],
+    [
+      0.9356746107360033,
+      0.06432538926399671
+    ],
+    [
+      0.009671415024107127,
+      0.9903285849758928
+    ],
+    [
+      0.03099707714950212,
+      0.9690029228504978
+    ],
+    [
+      0.06281751079280658,
+      0.9371824892071935
+    ],
+    [
+      0.9903323668571979,
+      0.009667633142802137
+    ],
+    [
+      0.000590616175084348,
+      0.9994093838249156
+    ],
+    [
+      4.914550267457253e-05,
+      0.9999508544973255
+    ],
+    [
+      0.743512232549856,
+      0.256487767450144
+    ],
+    [
+      0.990398533257104,
+      0.009601466742895862
+    ],
+    [
+      0.4876983184995868,
+      0.5123016815004132
+    ],
+    [
+      0.07245945146553633,
+      0.9275405485344638
+    ],
+    [
+      0.798494662833843,
+      0.20150533716615698
+    ],
+    [
+      0.5463580705608425,
+      0.4536419294391575
+    ],
+    [
+      0.00815671402166323,
+      0.9918432859783367
+    ],
+    [
+      0.03291003420638895,
+      0.9670899657936111
+    ],
+    [
+      0.0018333927221746882,
+      0.9981666072778252
+    ],
+    [
+      5.102696499996765e-08,
+      0.999999948973035
+    ],
+    [
+      0.0026427390252513143,
+      0.9973572609747486
+    ],
+    [
+      0.3179693890994724,
+      0.6820306109005275
+    ],
+    [
+      0.030817747307544278,
+      0.9691822526924557
+    ],
+    [
+      0.916007061326485,
+      0.08399293867351497
+    ],
+    [
+      0.7376233572238654,
+      0.26237664277613454
+    ],
+    [
+      0.6551443719321446,
+      0.34485562806785536
+    ],
+    [
+      0.9644522975889658,
+      0.03554770241103422
+    ],
+    [
+      0.8625793237642797,
+      0.13742067623572024
+    ],
+    [
+      0.004195723290875753,
+      0.9958042767091243
+    ],
+    [
+      0.9995616925209176,
+      0.0004383074790823334
+    ],
+    [
+      0.8647258027790538,
+      0.13527419722094622
+    ],
+    [
+      3.7056347123705985e-05,
+      0.9999629436528763
+    ],
+    [
+      0.003932645172170534,
+      0.9960673548278295
+    ],
+    [
+      0.9344842460405925,
+      0.06551575395940744
+    ],
+    [
+      0.8488696271253476,
+      0.15113037287465236
+    ],
+    [
+      0.8669000001050462,
+      0.13309999989495386
+    ],
+    [
+      0.9605000784779832,
+      0.03949992152201672
+    ],
+    [
+      0.9446558537096906,
+      0.05534414629030934
+    ],
+    [
+      6.5326441249468095e-06,
+      0.999993467355875
+    ],
+    [
+      0.25888338968441565,
+      0.7411166103155844
+    ],
+    [
+      2.552516555395796e-05,
+      0.999974474834446
+    ],
+    [
+      0.9978492728087379,
+      0.0021507271912620486
+    ],
+    [
+      0.4854308456592365,
+      0.5145691543407633
+    ],
+    [
+      0.9962985884062887,
+      0.003701411593711249
+    ],
+    [
+      0.9721646897164262,
+      0.02783531028357382
+    ]
+  ],
+  "presisi": 0.76,
+  "recall": 0.84,
+  "text_asli_list": [
+    "@Dina4rtya Berapa waktu lalu kita ke Borobudur, ngak bisa naik keatas , akhirnya kita batalin masuk ke @BorobudurJogja , ngapain jauh jauh datang ngak bisa melihat langsung, sekarang tiket udah naik 750k mending uang nya di tabung...boros amat ... #BOROBUDUR #WISATAJOGJA",
+    "@RANGERmounts @alisyarief @jokowi Pada belum pernah ke Hagia Sofia di Turki? Itu lebih tua dari Borobudur dan menunjukan bahwa constantinopel udah jauh lebih maju pada abad segitu. Berapa tiket masuk hagia sofia? Gratis.",
+    "@susipudjiastuti Bu @susipudjiastuti sdh baca belum ttg tiket 750rb itu?\nTiket masuk kawasan Borobudur ttp Bu. Yg 750rn itu baik ke Candi nya.\n\nUtk melindungi candi dr kerusakan harusnya jangan dinaikkan harganya tp tutup akses naik candi.\n\nKayaknya Ibu sdh masuk barisan 'Baca Judul Abaikan Isi'",
+    "Kalau tiket masuk Borobudur jadi 750 ribu auto anak muda domisili radius 30 km pacarannya cari lokasi lain. \n\nDulu kan emang sengaja sambil terangin relief dinding candi biar si dia terpesona.\n\nKembali rumah langsung putus, soale ga dijajanin dawet. Panas kan itu tempat.",
+    "Memang enggak gampang. Tp kudu diusahakan. Soal tiket Candi Borobudur ini jadi momen untuk mulai memikirkan Cara menjaga situs sejarah lainnya",
+    "@alisyarief @jokowi Kalau merasa tiket masuk ke candi Borobudur terlalu mahal kan bisa pindah destinasi wisata ke candi Hambalang misalnya yg gratis, kenapa sih bapak nyinyir terus kalau ada solusinya?",
+    "Tulisan saya di @GNFI soal pro kontra harga tiket candi borobudur.\n\n\"...Jgn masyarakat kita tercerabut dari sejarahnya dan jangan pula warisan sejarah  ini terancam karena akomodatif  keinginan berwisata. Saya setuju agar warisan dunia ini tetap lestari!\n\nhttps://t.co/FsCbcvXZJC",
+    "Kenaikan Tiket naik keatas stupa Candi borobudur menjadi Rp. 750.000 adalah harga yang sangat pantas. Mengingat situs sejarah dunia lainnya sudah sejak lama selangit harga tiketnya.. Dengan begitu kita bisa sama2 melindungi dan melestarikan situs sejarah. \nhttps://t.co/MeITcrheUU",
+    "Ternyata ehhh... ternyata mahal nya tiket masuk candi borobudur di karnakan adanya patung Dewa Cebong diatas candi ???????????????? https://t.co/BHVn92gYDM",
+    "@kompascom kalau tujuannya membatasi pengunjung Borobudur agar mengurangi kerusakan, lebih baik pakai sistem tiket seperti di bioskop. Jadi ada jam kunjung dan lama waktu kunjung nya per sesi. Jangan batasin pakai harga...",
+    "Jika ingin menjaga ORIGINALITASI Borobudur Berlakukan Saja DENDA dari pada harus menaikan TIKET \n\nKarna para generasi muda dan penerus bangsa juga Wajib tau sejarah peradaban yang pernah terjadi pada masa lampau di indonesia...",
+    "Setuju tiket naik candi borobudur mahalin aja. \nUntuk menjaga kesucian tempat ibadah milik Umat Budha. https://t.co/8tSQMsezAV",
+    "@kompascom Harusnya di pertimbangkan  tiket masuk candi Borobudur. Tidak memberatkan masarakat dan pikirkan juga biaya pemeliharaan  jika terjadi kerusakan  pada bagian candi itu harus di pertimbangkan .",
+    "Jika Memang Benar..Maka saya berterimakasih Pada Pemerintah, Karena Menunda Tarif Tiket Naik Ke Candi Borobudur\nWalaupun Itu bukan Kehendak hati, Tapi karena Tekanan Rakyat akan Pentingnya Mencintai Budaya Bangsa",
+    "Membatasi dan menaikkan tiket wisatawan untuk naik ke Candi Borobudur adalah hal yg patut di berlakukan demi kelestariannya.\nCandi Borobudur adalah warisan leluhur, wajib kita rawat dan lestarikan\n\nIngat ya yang dimahalkan itu tiket untuk Naik ke Candi bukan masuk kawasan Candi https://t.co/siN1RrJTEH",
+    "Di tengah berita Borobudur, gue sih setuju dgn tiket 750rb. Itu tempat ibadah, sakral, dan bersejarah. Sudah selayaknya untuk membatasi dan ga sembarang org bisa naek, biar bisa lebih menghargai bahwa untuk kesana ga murah dan perlu effort",
+    "Gw sndiri mndukung kenaikan harga tiket tuk naik ke bangunan Candi Borobudur. Pastinya aturan ini dibuat tuk melindungi cagar budaya ini agar tak rudak krna kelebihan beban dr pengunjung candi. Apalagi banyak pengunjung yg tak bertanggung jawab https://t.co/OeMCsK49OO",
+    "Mari kita mendukung kenaikan harga tiket demi menjaga kelestarian kekayaan dan budaya nusantara...\nAyo kita dukung kelestarian Candi Borobudur sebagai salah satu warisan budaya dari nenek moyang kita...\nBorobudur merupakan salah satu warisan kebanggaan milik Indonesia ???????? https://t.co/8XGiXP39cI",
+    "@hipohan Karena tiket borobudur yang 750 rb HANYA untuk yang naik keatas candi demi melestarikan peninggalan sejarah tak ternilai. Tiket masuk nya tetap 50 rb .. faham ?\nBeda dengan formula O eh E .. buat nonton layar tancap kan..",
+    "Harga tiket untuk naik ke Candi Borobudur adalah Rp750.000. Tapi untuk masuk kawasannya, harganya masih tetap.\n\nTernyata alasan di balik naiknya harga tiket adalah untuk mengurangi jumlah pengunjung yang naik ke atas Candi.",
+    "harga masuk kan ga dinaikin ya, wisatawan ttp bs liat borobudur dr bawah. kl mau naik, baru pake harga tiket yang 750k. tujuannya apa? biar ga overtourism, tau sendiri namanya situs bangunan heritage gini rentan rusak dmn pas kmrn pada boleh naik itu stupa2 uda dikasi tau-",
+    "Rame ya wacana candi Borobudur. Pada protes tiket naik Candi 750rb blablabla\nMasuk masjid kan gratis, kok jarang pada masuk?\n\n#SelfReminder",
+    "Tidak perlu marah2 dg rencana kenaikan harga tiket utk naik ke Candi Borobudur... masih ada koq Candi Hambalang... bisa masuk kapan saja dan tdk perlu bayar.. kalian malah bisa aja keluarga sekalian adu nyali.",
+    "@rasjawa penetapan harga tiket masuk borobudur ga musyawarah dulu ama bikhu, suka suka dia aja gitu, diputusin sendiri aja",
+    "@e2oliHhZSkBYTFc @detikcom Gak ada urusan sama agama. Tiket mahal hanya utk turis. Mau ibadah, penganut Buddha punya vihara yg rutin bisa sering2 dikunjungi. Borobudur hanya ibadah tahunan, dan tidak perlu tiket kalau ibadah. \n\nJangan baca berita sepotong2lah... Apalagi jurnalis detik kayak jin Ancol gini.",
+    "Once harga naik, maka harga gak mungkin/jarang sekali turun. Contoh harga apartemen, harga tiket wahana, harga masuk Borobudur (ups). Kenapa? Why begini?",
+    "[Masih soal Borobudur]\n\nMasuk pelataran Borobudur 50rb.\n\nMau keatas Borobudur, bayar tiket 750rb.\n\nOrg misqueen cuma nyampe di pelataran sambil minum es krim,ngeliatin horang kayah naik keatas candi Borobudur. Mau 1 org, 2 org, ato se RW, dapet tour guide.\n\nMsh blg konservasi?",
+    "@ZaenalAmmar @IT19S20 @hipohan gue tuh bingung,kalo tujuannya adalah membatasi pengunjung naik ke candi knp gak langsung dibatasi aja perhari dgn cara tiket naik dijual terpisah via online.Kalo begini kesannya hanya orang yg mampu yg bisa naik ke candi borobudur...just an idea",
+    "@detikcom borobudur tiket 2 jt pun tidak masalah,  kita cari destinasi wisata yg lain aja, yg murah tapi tidak kalah menarik,,,ngapain  masuk borobudur klo tiketnys sama dg kita naik pesawat,,,",
+    "Candi Borobudur merupakan cagar budaya bertaraf internasional.\n\nLangkah pemerintah sudah tepat untuk menaikkan tiket masuk ke Candi Borobudur dan sudah dipertimbangkan dengan matang sesuai dengan tiket ikon wisata dunia.\n\nMari kita menjaga destinasi wisata dunia Candi Borobudur. https://t.co/m4oY7fcfnJ",
+    "kesel sendiri liat orang yang kontra sama harga kenaikan tiket. pdahal udah dijelasin, kalo untuk anak sekolah harga tiket buat ke atas tetep sama harganya T_T w awalnya tim kontra, tapi setelah dnger candi borobudur bebatuannya udah mulai aus serem bgt anjir",
+    "@merdekadotcom Bukannya mikir pake otak, malah merasa Terzholimi!???\nWoiii, Jangan kau naikkan Tiket ke Borobudur makanya !",
+    "@merdekadotcom Tiket naik dari rp 50.000 jadi rp 750.000.\nNaik 15x lipat.\nEmangnya yg bikin Borobudur Luhut?\nLuhut itu punya otak dan hati tidak?\nDi usia 74 tahun harusnya Luhut dipensiunkam. Bukan malah merangkap puluhan jabatan dan pekerjaam",
+    "Tapi terserah aje ye... Ini argumen gw soal mahalnya tiket masuk Candi Borobudur. Kalo bilang harga tiket masuk Candi Borobudur 750 ribu itu wajar terserah aje dah. Gw paling males berdebat dengan orang yang akalnya ga berjalan dengan sehat.",
+    "@tvOneNews Kl sukses masuk borobudur pake tiket mahal, siap2 tempat ibadah yg lain bakalan kena, maklum bisnis PCR dah bangkrut ????",
+    "Untung dibatalin. Bikin kebijakan kok ngetes netizen https://t.co/Q4Ak43ahoA",
+    "Langkah ini (menaikkan tiket masuk Borobudur) dilakukan semata-mata demi menjaga kelestarian kekayaan sejarah dan budaya nusantara.\nRencana kenaikan tarif baru itu  demi menjaga kelestarian Candi Borobudur dan membatasi kunjungan.\n@jokowi pro budaya https://t.co/Kys94UKzV2",
+    "2. Pemberdayaan umkm juga masih bisa berjalan dengan baik krn tiket masuk pelataran masih harga normal .. bukankah di pelataran Borobudur sudah disediakan tempat berjualan ..?",
+    "Aturan pengendalian jumlah pengunjung Candi Borobudur setiap harinya dengan menaikkan tiket naik ke atas bangunan candi.\n\nBeban candi bisa berkurang sebab effek pelapukan &amp; iklim, terhindar vandalisme, cagar budaya lebih aman.\nKelestarian kekayaan &amp; budaya nusantara bisa terjaga. https://t.co/JPU9HWrgZE",
+    "@OposisiCerdas Meresahkan masyarakat Indonesia. Apa apa naik. Selalu memeras rakyat nya. Dan para turis pun mikir Dua kali lipat mau ke Borobudur karena tiket mahal.",
+    "@detikcom Menaikan harga tiket masuk candi borobudur tanpa berpikir,sama dgn membunuh perekonomian masyarakat disekitarnya serta membutakan sejarah bg anak2 muda.",
+    "@yunartowijaya Pendapatan umkm warga sekitaran borobudur bertumpu pada wisatawan lokal,saya sebagai warga sekitaran borobudur menolak harga tiket masuk yg gak masuk akal mahalnya,kasihan para pedagang di sekitaran candi borobudur.karena akan sepi wisatawan lokal enggan ke borobudur",
+    "@convomf Nah gitu dong, dikira warga Indo pada sultan2 semua kali ya jd tiket candi borobudur dibikin mahal.\nMinat pengunjung lokal udah minim ditambah naikin harga tiket masuk, makin gak ada yg mau kesana."
+  ],
+  "text_list": [
+    "borobudur naik atas batal masuk lihat tiket naik uang tabung boros",
+    "hagia sofia turki tua borobudur tunjuk constantinopel maju abad segitu tiket masuk hagia sofia gratis",
+    "bu baca tiket tiket masuk kawasan borobudur bu rn candi lindung candi rusa naik harga tutup akses naik candi kayak ibu masuk baris baca judul abai isi",
+    "tiket masuk borobudur auto anak muda domisili radius pacar cari lokasi kan sengaja angin relief dinding candi biar pesona rumah putus soale dijajanin dawet panas kan",
+    "memang gampang usaha tiket candi borobudur momen pikir jaga situs sejarah",
+    "tiket masuk candi borobudur mahal kan pindah destinasi wisata candi hambalang gratis nyinyir solusi",
+    "tulis tuju kontra harga tiket candi borobudur masyarakat cerabut sejarah waris sejarah ancam akomodatif wisata tuju waris dunia lestari",
+    "naik tiket naik atas stupa candi borobudur harga ingat situs sejarah dunia langit harga tiket lindung lestari situs sejarah",
+    "mahal tiket masuk candi borobudur patung dewa atas candi",
+    "tuju batas unjung borobudur kurang rusa pakai sistem tiket bioskop jam kunjung kunjung sesi batasin pakai harga",
+    "jaga originalitasi borobudur laku denda naik tiket generasi muda terus bangsa wajib sejarah adab lampau indonesia",
+    "tuju tiket naik candi borobudur mahalin jaga suci ibadah umat budha",
+    "timbang tiket masuk candi borobudur berat masarakat pikir biaya pelihara rusa bagi candi timbang",
+    "memang benar maka terima kasih perintah tunda tarif tiket naik candi borobudur hendak hati tekan rakyat cinta budaya bangsa",
+    "batas naik tiket wisatawan naik candi borobudur patut laku lestari candi borobudur waris leluhur wajib rawat lestari ingat iya mahal tiket naik candi masuk kawasan candi",
+    "berita borobudur tuju tiket ibadah sakral sejarah layak batas sembarang naik biar harga kesana murah effort",
+    "mndukung naik harga tiket tuk naik bangun candi borobudur pasti atur buat tuk lindung cagar budaya rudak lebih beban unjung candi unjung tanggung jawab",
+    "mari dukung naik harga tiket jaga lestari kaya budaya nusantara ayo dukung lestari candi borobudur salah waris budaya nenek moyang borobudur salah waris bangga indonesia",
+    "tiket borobudur naik atas candi lestari tinggal sejarah nilai tiket masuk faham beda formula o e nonton layar tancap kan",
+    "harga tiket naik candi borobudur masuk kawasan harga alas naik harga tiket kurang unjung naik candi",
+    "harga masuk kan naik iya wisatawan lihat borobudur naik pakai harga tiket tuju biar overtourism nama situs bangun heritage rentan rusak pas naik stupa kasi",
+    "ramai iya wacana candi borobudur protes tiket naik candi blablabla masuk masjid kan gratis jarang masuk",
+    "marah rencana naik harga tiket naik candi borobudur candi hambalang masuk bayar keluarga adu nyali",
+    "tetap harga tiket masuk borobudur musyawarah biksu suka suka putus",
+    "urus agama tiket mahal turis ibadah anut buddha vihara rutin kunjung borobudur ibadah tahun tiket ibadah baca berita potong jurnalis detik jin ancol",
+    "once harga naik maka harga mungkin jarang turun contoh harga apartemen harga tiket wahana harga masuk borobudur why",
+    "borobudur masuk latar borobudur atas borobudur bayar tiket misqueen nyampe latar minum es krim ngeliatin horang kayah naik atas candi borobudur rw tour guide bilang konservasi",
+    "bingung tuju batas unjung naik candi batas hari tiket naik jual pisah via online kesan naik candi borobudur just idea",
+    "borobudur tiket cari destinasi wisata murah kalah tarik masuk borobudur tiketnys naik pesawat",
+    "candi borobudur cagar budaya taraf internasional langkah perintah naik tiket masuk candi borobudur timbang matang tiket lambang wisata dunia mari jaga destinasi wisata dunia candi borobudur",
+    "kesal lihat kontra harga naik tiket anak sekolah harga tiket harga t t w tim kontra dengar candi borobudur bebatuan aus rem banget",
+    "bukan pikir pakai otak terzholimi woiii naik tiket borobudur",
+    "tiket naik naik x lipat memang bikin borobudur otak hati usia dipensiunkam rangkap puluh jabat pekerjaam",
+    "serah aje iya argumen mahal tiket masuk candi borobudur bilang harga tiket masuk candi borobudur wajar serah aje malas debat akal jalan sehat",
+    "sukses masuk borobudur pakai tiket mahal ibadah kena maklum bisnis pcr bangkrut",
+    "untung batal bikin bijak ngetes netizen",
+    "langkah naik tiket masuk borobudur mata jaga lestari kaya sejarah budaya nusantara rencana naik tarif jaga lestari candi borobudur batas kunjung tuju budaya",
+    "daya umkm jalan tiket masuk latar harga normal latar borobudur sedia jual",
+    "atur kendali unjung candi borobudur hari naik tiket naik bangun candi beban candi kurang efek lapuk iklim hindar vandalisme cagar budaya aman lestari kaya budaya nusantara jaga",
+    "resah masyarakat indonesia naik peras rakyat turis pikir lipat borobudur tiket mahal",
+    "naik harga tiket masuk candi borobudur pikir bunuh ekonomi masyarakat sekitar buta sejarah anak muda",
+    "dapat umkm sekitar borobudur tumpu wisatawan lokal sekitar borobudur tolak harga tiket masuk masuk akal mahal kasihan dagang sekitar candi borobudur sepi wisatawan lokal enggan borobudur",
+    "indo sultan iya tiket candi borobudur bikin mahal minat unjung lokal minim tambah naik harga tiket masuk kesana"
+  ],
+  "tn": 19,
+  "tp": 16
+}

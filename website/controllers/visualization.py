@@ -12,33 +12,13 @@ import os
 
 
 class VisualizationController:
-    def createVisualisasi(self):
-        waktu = datetime.today().strftime('%d-%m-%Y %H%M')
+    def create_visualisasi(self):
         
         try:
-            instance_model =  Models('SELECT DATE(created_at) as tanggal FROM tbl_data_clean WHERE clean_text IS NOT NULL AND sentiment IS NOT NULL')
-            distribusi_waktu = instance_model.select()
-
-            list_tanggal = [str(data['tanggal']) for data in distribusi_waktu]
-
-            plt.subplots(figsize=(25, 10))
-            plt.hist(list_tanggal, bins=125)
-
-            plt.ylabel('Jumlah Tweet', fontsize=18)
-            plt.xlabel('Tanggal Perolehan', fontsize=18)
-            plt.xticks(rotation=45)
-
-            plt.grid()
-
-            plt.savefig('website/static/visualisasi/histogram_dist_waktu.png')
-
-            plt.cla()
-            plt.clf()
-
-            instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_data_clean WHERE sentiment = "positif"')
+            instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_tweet_preprocessing WHERE label = "positif"')
             count_pos = instance_model.select()[0]['jumlah']
 
-            instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_data_clean WHERE sentiment = "negatif"')
+            instance_model = Models('SELECT COUNT(id) as jumlah FROM tbl_tweet_preprocessing WHERE label = "negatif"')
             count_neg = instance_model.select()[0]['jumlah']
 
             jumlah_data = count_pos + count_neg
@@ -47,19 +27,28 @@ class VisualizationController:
 
             list_countSentiment = [persentase_pos, persentase_neg]
 
-            plt.subplots(figsize=(10, 10))
-            plt.pie(list_countSentiment, labels=['Positif ('+ str(persentase_pos) +'%)', 'Negatif ('+ str(persentase_neg) +'%)'], colors=['#00c853', '#ff1744'], startangle=90)
-            plt.legend(title="Data Tipe Sentimen")
+            plt.subplots(figsize=(9, 9))
+            plt.pie(list_countSentiment, 
+                    labels=['Positif ('+ str(persentase_pos) +'%)', 'Negatif ('+ str(persentase_neg) +'%)'],
+                    colors=['#00c853', '#ff1744'],
+                    startangle=90)
+            # draw circle
+            centre_circle = plt.Circle((0, 0), 0.60, fc='white')
+            fig = plt.gcf()
+            # Adding Circle in Pie chart
+            fig.gca().add_artist(centre_circle)
+            
+            plt.legend(title="Data Tipe Sentimen", loc="upper right")
 
             plt.savefig('website/static/visualisasi/pie_sentimen.png')
 
             plt.cla()
             plt.clf()
 
-            instance_model = Models("SELECT clean_text FROM tbl_data_clean WHERE clean_text IS NOT NULL AND sentiment = 'positif'")
+            instance_model = Models("SELECT clean_text FROM tbl_tweet_preprocessing WHERE clean_text IS NOT NULL AND label = 'positif'")
             data_positif = instance_model.select()
                 
-            instance_model = Models("SELECT clean_text FROM tbl_data_clean WHERE clean_text IS NOT NULL AND sentiment = 'negatif'")
+            instance_model = Models("SELECT clean_text FROM tbl_tweet_preprocessing WHERE clean_text IS NOT NULL AND label = 'negatif'")
             data_negatif = instance_model.select()
 
             string_positif = ""
@@ -70,17 +59,13 @@ class VisualizationController:
             for data in data_negatif:
                 string_negatif += str(data['clean_text']) + " "
 
-            wordcloud = WordCloud(width=800, height=400, background_color='black', collocations=False).generate(string_positif)
+            wordcloud = WordCloud(width=800, height=400, background_color='white', collocations=False).generate(string_positif)
             wordcloud.to_file('website/static/visualisasi/wordcloud_positif.png')
 
-            wordcloud = WordCloud(width=800, height=400, background_color='black', collocations=False).generate(string_negatif)
+            wordcloud = WordCloud(width=800, height=400, background_color='white', collocations=False).generate(string_negatif)
             wordcloud.to_file('website/static/visualisasi/wordcloud_negatif.png')
 
         except:
-            if os.path.exists('website/static/visualisasi/histogram_dist_waktu.png'):
-                os.remove('website/static/visualisasi/histogram_dist_waktu.png')
-            else:
-                print('\nFile histogram tidak ditemukan')
             if os.path.exists('website/static/visualisasi/pie_sentimen.png'):
                 os.remove('website/static/visualisasi/pie_sentimen.png')
             else:
@@ -103,14 +88,12 @@ class VisualizationController:
         frekuensi_neg = dict(sorted(counts.items(), key=operator.itemgetter(1), reverse=True))
 
         data = {
-            'jumlah_tweets': len(list_tanggal),
             'jumlah_pos': count_pos,
             'jumlah_neg': count_neg,
             'persentase_pos': persentase_pos,
             'persentase_neg': persentase_neg,
             'frekuensi_pos': list(frekuensi_pos.items())[:15],
-            'frekuensi_neg': list(frekuensi_neg.items())[:15],
-            'waktu': waktu
+            'frekuensi_neg': list(frekuensi_neg.items())[:15]
         }
 
         # Menyimpan hasil visualisasi dalam bentuk json
@@ -119,7 +102,7 @@ class VisualizationController:
 
         return 'true'
 
-    def getVisualisasi(self):
+    def get_visualisasi(self):
         filepath = 'website/static/visualisasi/hasil_visualisasi.json'
 
         try:
@@ -130,7 +113,7 @@ class VisualizationController:
         return data
 
 
-    def deleteVisualisasi(self):
+    def delete_visualisasi(self):
         filepath = 'website/static/visualisasi/hasil_visualisasi.json'
 
         if os.path.exists(filepath):

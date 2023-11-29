@@ -13,6 +13,7 @@
   <div class="col-md-6 offset-md-3 col-sm-12 text-center mb-3">
   </div>
 
+  <div class="d-flex justify-content-center">Jumlah data Preprocessing: {{ count_data_preprocessing }}</div>
   <div class="d-flex flex-row mb-3">
     <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalPreprocessing"><i class="bx bx-analyse"></i> <em>Preprocessing</em> Data</button>
     <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataPreprocessing"><i class='bx bx-trash'></i> Hapus Data Preprocessing</button>
@@ -20,7 +21,7 @@
 
   <!-- Modal Preprocessing -->
   <div class="modal fade" tabindex="-1" id="modalPreprocessing">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Preprocessing Data</h5>
@@ -32,13 +33,11 @@
           ></button>
         </div>
         <div class="modal-body px-5">
-          <label class="text-muted d-inline-flex align-items-center mb-0"
-            >Sebanyak
+          <label class="d-inline-flex align-items-center mb-0">Sebanyak
             <h4 class="text-info mx-2 mb-0" id="jumlah_dataCrawling">
               {{ count_data_crawling }}
             </h4>
-            data (<em>crawling</em>) akan diproses</label
-          >
+            data (<em>crawling</em>) akan diproses</label>
           <br />
           <small class="text-info d-none fadeIn" id="validasi_preprocessing">
             <i class="fa fa-info-circle"></i> Silakan lakukan proses
@@ -114,10 +113,10 @@
           <h6 class="mb-2">Cleansing:</h6>
           <p id="cleansing"></p>
           <hr />
-          <h6 class="mb-2">Slangword:</h6>
+          <h6 class="mb-2">Ubah Slangword:</h6>
           <p id="slangword"></p>
           <hr />
-          <h6 class="mb-2">Stopword:</h6>
+          <h6 class="mb-2">Hapus Stopword:</h6>
           <p id="stopword"></p>
           <hr />
           <h6 class="mb-2">Stemming:</h6>
@@ -125,6 +124,27 @@
           <hr />
           <h6 class="mb-2">Tweet Bersih:</h6>
           <p id="tweetBersih"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Hapus semua data Preprocessing -->
+  <div class="modal fade" tabindex="-1" id="modalHapusDataPreprocessing">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Hapus Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body mx-3">
+          <p class="my-2 text-justify">Apakah Anda yakin ingin menghapus seluruh data Preprocessing? Menghapus data Preprocessing akan menghapus data Berlabel juga</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <form action="/preprocessing/hapus" method="POST">
+            <input type="hidden" name="id" required readonly>
+            <button type="submit" class="btn btn-danger">Hapus</button>
+          </form>
         </div>
       </div>
     </div>

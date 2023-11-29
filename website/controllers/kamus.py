@@ -12,6 +12,12 @@ class KamusController:
         
         return slangword
 
+    def count_dataSlangword(self):
+        instance_model = Models('SELECT COUNT(id_slangword) as jumlah FROM tbl_slangword')
+        count_slangword = instance_model.select()[0]['jumlah']
+
+        return count_slangword
+
     def add_dataSlangword(self):
         slangword = request.form['slangword'].strip()
         kata_asli = request.form['kata_asli'].strip()
@@ -68,6 +74,12 @@ class KamusController:
         stopword = instance_model.select()
         
         return stopword
+
+    def count_dataStopword(self):
+        instance_model = Models('SELECT COUNT(id_stopword) as jumlah FROM tbl_stopword')
+        count_stopword = instance_model.select()[0]['jumlah']
+
+        return count_stopword
 
     def add_dataStopword(self):
         stopword = request.form['stopword'].strip()

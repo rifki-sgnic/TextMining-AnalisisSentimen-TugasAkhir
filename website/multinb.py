@@ -2,117 +2,98 @@ import numpy as np
 
 
 class MultiNB:
-    def __init__(self,alpha=1):
+    def __init__(self, alpha=1.0):
+        self.prior = None
+        self.jumlah_kata = None
+        self.total_kata = None
+        self.likelihood_kata = None
+        self.predict_prob = None
         self.alpha = alpha
+        
+    def fit(self, x, y):
+        '''
+        Latih fitur dan label
+        Menghitung hal-hal berikut :
+            prior : Menghitung probabilitas banyaknya kelas c terhadap jumlah seluruh kelas dalam dokumen
+            jumlah_kata : Menghitung jumlah kata yang muncul dalam dokumen pada kelas c terhadap kata unik
+            likelihood_kata : likelihood dari setiap kata terhadap kelas c || P(Xi|y) = P(w1|y) * P(w2|y) ... * P(wn|y)
+        '''
+        jumlah_sample = x.shape[0]
+
+        # Mengambil label unik dari y_train
+        classes = np.unique(y)
+
+        # Memisahkan x_train menjadi per kelas
+        x_kelas = []
+        for c in classes:
+            x_kelas.append(x[y == c])
+
+        x_per_kelas = np.array(x_kelas, dtype=object)
+
+        # Menghitung prior
+        # Menghitung jumlah kata
+        prior = []
+        jumlah_kata = []
+        for x_kelas in x_per_kelas:
+            prior.append(len(x_kelas) / jumlah_sample)
+            jumlah_kata.append(x_kelas.sum(axis=0) + self.alpha)    # Laplace Smoothing dengan menambahkan alpha yaitu bernilai 1
+        self.prior = np.array(prior)
+        self.jumlah_kata = np.array(jumlah_kata)
+        
+        # Menghitung likelihood untuk setiap kata (likelihood_kata)
+        self.total_kata = self.jumlah_kata.sum(axis=1).reshape(-1, 1)   # Menjumlahkan seluruh jumlah_kata
+        self.likelihood_kata = self.jumlah_kata / self.total_kata       # Menghitung nilai likelihood || P(w1|y), ..., P(wn|y)
+        
+        return self
     
-    def _prior(self): # CHECKED
-        """
-        Menghitung prior untuk setiap unique class dalam y. P(y)
-        """
-        P = np.zeros((self.n_classes_))
-        _, self.dist = np.unique(self.y,return_counts=True)
-        for i in range(self.classes_.shape[0]):
-            P[i] = self.dist[i] / self.n_samples
-        return P
-            
-    def fit(self, X, y): # CHECKED, matches with sklearn
-        """
-        Menghitung hal-hal berikut-
-            class_priors_ merupakan sebuah list prior dari setiap y
-            N_yi: array 2D. Berisikan setiap kelas dalam y, berapa kali setiap fitur i muncul dalam y
-            N_y: array 1D. Berisikan setiap kelas dalam y, jumlah seluruh fitur muncul dalam y. 
+    def _get_class_numerators(self, x):
+        '''
+        Menghitung setiap kelas, likelihood seluruh teks kondisional pada teks bergantung pada kelas c (positif atau negatif)
 
-        params
-        ------
-        X: array 2D. shape(n_sampel, n_fitur)
-            Multinomial Data
-        y: array 1D. shape(n_sampel,). Label harus bertipe integer
-        """
-        self.y = y
-        self.n_samples, self.n_features = X.shape
-        self.classes_ = np.unique(y)
-        self.n_classes_ = self.classes_.shape[0]
-        self.class_priors_ = self._prior()
+        Menghitung hal-hal berikut:
+            kata_muncul : kemunculan kata pada x_test
+            likelihood_kata : likelihood dari setiap kata terhadap kelas c || P(Xi|y) = P(w1|y) * P(w2|y) ... * P(wn|y)
+            likelihood_kata_kini : likelihood dari setiap kata terhadap kelas c yang sedang berlangsung dalam iterasi
+            likelihood_teks : likelihood dari seluruh teks terhadap kelas c || P(x|y) = P(Xi|y)
+            class_numerators : Perhitungan posterior untuk setiap kelas c
+        '''
+        n, m = x.shape[0], self.prior.shape[0]
         
-        # Membedakan nilai dalam setiap fitur
-        self.uniques = []
-        for i in range(self.n_features):
-            tmp = np.unique(X[:,i])
-            self.uniques.append( tmp )
-            
-        self.N_yi = np.zeros((self.n_classes_, self.n_features)) # feature count
-        self.N_y = np.zeros((self.n_classes_)) # total count
-        for i in self.classes_: # x axis
-            indices = np.argwhere(self.y==i).flatten()
-            columnwise_sum = []
-            for j in range(self.n_features): # y axis
-                columnwise_sum.append(np.sum(X[indices,j]))
-                
-            self.N_yi[i] = columnwise_sum # 2d
-            self.N_y[i] = np.sum(columnwise_sum) # 1d
-            
-    def _theta(self, x_i, i, h):
-        """
-
-        Menghitung theta_yi atau P(xi | y) dengan eqn(1) dalam notebook.
-
-        params
-        ------
-        x_i: int.
-            fitur x_i
-
-        i: int.
-            fitur index.
-
-        h: int atau string.
-            sebuah kelas dalam y
+        class_numerators = np.zeros(shape=(n, m))
+        for i, kata in enumerate(x):
+  
+            kata_muncul = kata.astype(bool)     # Mengubah value kata menjadi boolean
+            likelihood_kata_kini = self.likelihood_kata[:, kata_muncul] ** kata[kata_muncul]    # Mengambil likelihood dari kata muncul
+            likelihood_teks = (likelihood_kata_kini).prod(axis=1)   # Mengalikan seluruh nilai dalam likelihood_kata_kini
+            class_numerators[i] = likelihood_teks * self.prior      # Mengalikan likelihood dengan prior (posterior) || P(x|y) = P(y) * P(Xi|y)
         
-        returns
-        -------
-        theta_yi: P(xi | y)
-        """
-        
-        Nyi = self.N_yi[h,i]
-        Ny  = self.N_y[h]
-        
-        numerator = Nyi + self.alpha
-        denominator = Ny + (self.alpha * self.n_features)
-        
-        return  (numerator / denominator)**x_i
+        return class_numerators
     
-    def _likelyhood(self, x, h):
-        """
-
-        Menghitung P(E|H) = P(E1|H) * P(E2|H) .. * P(En|H).
+    def _normalized_conditional_probs(self, class_numerators):
+        '''
+        Conditional probabilities = class_numerators / normalize_term
+        '''
+        # normalize term merupakan likelihood dari seluruh teks (penambahan dari seluruh kata dalam satu baris) || P(x)
+        normalize_term = class_numerators.sum(axis=1).reshape(-1,1)
+        conditional_probs = class_numerators / normalize_term
         
-        params
-        ------
-        x: array. shape(n_fitur,)
-            sebuah baris data.
-        h: int.
-            sebuah kelas dalam y
-        """
-        tmp = []
-        for i in range(x.shape[0]):
-            tmp.append(self._theta(x[i], i,h))
-        
-        return np.prod(tmp)
+        return conditional_probs
     
-    def predict(self, X):
-        samples, features = X.shape
-        self.predict_proba = np.zeros((samples,self.n_classes_))
-        
-        for i in range(X.shape[0]):
-            joint_likelyhood = np.zeros((self.n_classes_))
-            
-            for h in range(self.n_classes_):
-                joint_likelyhood[h]  = self.class_priors_[h] * self._likelyhood(X[i],h) # P(y) P(X|y) 
-                
-            denominator = np.sum(joint_likelyhood)
-            
-            for h in range(self.n_classes_):
-                numerator = joint_likelyhood[h]
-                self.predict_proba[i,h] = (numerator / denominator)
-            
-        indices = np.argmax(self.predict_proba,axis=1)
-        return self.classes_[indices]
+    def predict_proba(self, x):
+        '''
+        Return the probabilities for each class (fake or real)
+        Return probabilitas dari setiap kelas (positif atau negatif)
+        '''
+        class_numerators = self._get_class_numerators(x)
+        conditional_probs = self._normalized_conditional_probs(class_numerators)
+        self.predict_prob = conditional_probs
+
+        return conditional_probs
+    
+
+    def predict(self, x):
+        '''
+        Return the answer with the highest probability (argmax)
+        Return hasil nilai dengan probabilitas tertinggi (argmax)
+        '''
+        return self.predict_proba(x).argmax(axis=1)

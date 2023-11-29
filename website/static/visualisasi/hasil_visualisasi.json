@@ -1,132 +1,130 @@
 {
-  "jumlah_tweets": 60,
-  "jumlah_pos": 32,
-  "jumlah_neg": 28,
-  "persentase_pos": 53.33,
-  "persentase_neg": 46.67,
+  "jumlah_pos": 93,
+  "jumlah_neg": 120,
+  "persentase_pos": 43.66,
+  "persentase_neg": 56.34,
   "frekuensi_pos": [
     [
-      "borobudur",
-      39
+      "tiket",
+      114
     ],
     [
-      "tiket",
-      37
+      "borobudur",
+      113
+    ],
+    [
+      "naik",
+      93
     ],
     [
       "candi",
-      28
-    ],
-    [
-      "tuju",
-      25
+      84
     ],
     [
       "harga",
-      19
+      66
     ],
     [
       "masuk",
-      13
+      45
+    ],
+    [
+      "tuju",
+      31
     ],
     [
       "budaya",
-      9
+      24
     ],
     [
-      "sejarah",
-      9
-    ],
-    [
-      "wisata",
-      8
-    ],
-    [
-      "jaga",
-      7
-    ],
-    [
-      "mahal",
-      7
+      "lestari",
+      23
     ],
     [
       "ibadah",
-      6
+      23
     ],
     [
-      "budha",
-      6
+      "jaga",
+      22
     ],
     [
-      "dunia",
-      5
+      "mahal",
+      20
     ],
     [
-      "unjung",
-      5
+      "sejarah",
+      17
+    ],
+    [
+      "iya",
+      17
+    ],
+    [
+      "wisata",
+      16
     ]
   ],
   "frekuensi_neg": [
     [
       "borobudur",
-      77
+      260
     ],
     [
       "tiket",
-      67
-    ],
-    [
-      "candi",
-      45
-    ],
-    [
-      "tuju",
-      34
-    ],
-    [
-      "harga",
-      32
-    ],
-    [
-      "masuk",
-      29
-    ],
-    [
-      "mahal",
-      16
-    ],
-    [
-      "sejarah",
-      12
-    ],
-    [
-      "budaya",
-      10
-    ],
-    [
-      "wisata",
-      10
-    ],
-    [
-      "jaga",
-      10
-    ],
-    [
-      "ibadah",
-      10
+      257
     ],
     [
       "naik",
-      9
+      181
+    ],
+    [
+      "candi",
+      164
+    ],
+    [
+      "harga",
+      122
+    ],
+    [
+      "masuk",
+      120
+    ],
+    [
+      "mahal",
+      52
+    ],
+    [
+      "tuju",
+      48
+    ],
+    [
+      "ibadah",
+      45
     ],
     [
       "iya",
-      9
+      38
     ],
     [
-      "batas",
-      8
+      "unjung",
+      31
+    ],
+    [
+      "wisata",
+      31
+    ],
+    [
+      "jaga",
+      30
+    ],
+    [
+      "budaya",
+      27
+    ],
+    [
+      "lestari",
+      27
     ]
-  ],
-  "waktu": "26-06-2022 1751"
+  ]
 }

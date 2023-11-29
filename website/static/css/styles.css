@@ -20,13 +20,12 @@ body{
   height: 100%;
   width: 78px;
   padding: 6px 14px;
-  /* background: #11101d; */
   transition: all 0.5s ease;
   z-index: 1;
 }
 
 .sidebar.active{
-  width: 240px;
+  width: 260px;
 }
 
 .sidebar .logo-content .logo{
@@ -93,7 +92,7 @@ body{
   top: 0;
   transform: translate(-50% , -50%);
   border-radius: 6px;
-  height: 35px;
+  height: fit-content;
   width: 122px;
   padding: 0;
   background: #fff;
@@ -245,18 +244,8 @@ body{
 }
 
 .sidebar.active ~ .main{
-  width: calc(100% - 240px);
-  left: 240px;
-}
-
-.loaderDiv {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
+  width: calc(100% - 260px);
+  left: 260px;
 }
 
 .bs-callout {
@@ -269,7 +258,7 @@ body{
 }
 
 .bs-callout-primary {
-  border-left-color: #428bca;
+  border-left-color: #435ebe;
 }
 
 .stats-icon {
@@ -298,4 +287,38 @@ body{
 
 .red {
   background-color: #ff7976;
+}
+
+.lds-ring {
+  width: 200px;
+  height: 200px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 185px;
+  height: 185px;
+  margin: 8px;
+  border: 24px solid #435ebe;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #435ebe transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

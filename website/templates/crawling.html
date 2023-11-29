@@ -22,7 +22,8 @@
       {% endfor %}
     {% endif %}
   {% endwith %}
-
+  
+  <div class="d-flex justify-content-center">Jumlah data Crawling: {{ count_data_crawling }}</div>
   <div class="d-flex flex-row mb-3">
     <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalImport"><i class='bx bxs-file-plus' ></i> <em>Import</em> Data</button>
     <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataCrawling"><i class='bx bx-trash'></i> Hapus Data Crawling</button>
@@ -30,10 +31,10 @@
 
   <!-- Modal Import Excel -->
   <div class="modal fade" tabindex="-1" id="modalImport">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Import Crawling Data</h5>
+          <h5 class="modal-title">Import Data Crawling</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="/import-crawling" method="POST" enctype="multipart/form-data">
@@ -75,6 +76,28 @@
         {% endfor %}
       </tbody>
     </table>
+  </div>
+
+  <!-- Modal Hapus semua data Preprocessing -->
+  <div class="modal fade" tabindex="-1" id="modalHapusDataCrawling">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Hapus Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body mx-3">
+          <p class="my-2">Apakah Anda yakin ingin menghapus seluruh data Crawling?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <form action="/crawling/hapus" method="POST">
+            <input type="hidden" name="id" required readonly>
+            <button type="submit" class="btn btn-danger">Hapus</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
     
 </div>

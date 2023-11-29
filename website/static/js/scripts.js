@@ -18,29 +18,61 @@ function cariRasio(kode) {
   var rasio_hasil_test = 0;
   var rasio_hasil_train = 0;
 
-  if (kode == "2:8") {
+  if (kode == "8:2") {
     // 2:8
-    rasio_hasil_test = Math.floor(jumlah_data * 0.2);
-    rasio_hasil_train = Math.ceil(jumlah_data * 0.8);
+    rasio_hasil_train = Math.floor(jumlah_data * 0.8);
+    rasio_hasil_test = Math.ceil(jumlah_data * 0.2);
     $("#rasio1-hasil").html(
-      '<i class="fa fa-arrow-right mr-3"></i>' +
-        rasio_hasil_test +
-        " Data Uji & " +
+      '<i class="bx bx-right-arrow-alt"></i>' +
         rasio_hasil_train +
-        " Data Latih"
+        " Data Train & " +
+        rasio_hasil_test +
+        " Data Test"
     );
     $("#rasio2-hasil").empty();
-  } else if (kode == "1:9") {
+    $("#rasio3-hasil").empty();
+  } else if (kode == "9:1") {
     // 1:9
-    rasio_hasil_test = Math.floor(jumlah_data * 0.1);
     rasio_hasil_train = Math.ceil(jumlah_data * 0.9);
+    rasio_hasil_test = Math.floor(jumlah_data * 0.1);
     $("#rasio1-hasil").empty();
     $("#rasio2-hasil").html(
-      '<i class="fa fa-arrow-right mr-3"></i>' +
-        rasio_hasil_test +
-        " Data Uji & " +
+      '<i class="bx bx-right-arrow-alt"></i>' +
         rasio_hasil_train +
-        " Data Latih"
+        " Data Train & " +
+        rasio_hasil_test +
+        " Data Test"
+    );
+    $("#rasio3-hasil").empty();
+  } else if (kode == "custom") {
+    cv = document.getElementById("custom_value").value
+    custom_value = document.getElementById("custom_value").addEventListener('change', function() {
+      rasio_custom = this.value/10;
+
+      rasio_hasil_train = Math.ceil(jumlah_data * rasio_custom);
+      rasio_hasil_test = Math.floor(jumlah_data * (1 - rasio_custom));
+  
+      $("#rasio1-hasil").empty();
+      $("#rasio2-hasil").empty();
+      $("#rasio3-hasil").html(
+        '<i class="bx bx-right-arrow-alt"></i>' +
+          rasio_hasil_train +
+          " Data Train & " +
+          rasio_hasil_test +
+          " Data Test"
+      );
+    });
+    rasio_hasil_train = Math.ceil(jumlah_data * (cv/10));
+    rasio_hasil_test = Math.floor(jumlah_data * (1 -  (cv/10)));
+
+    $("#rasio1-hasil").empty();
+    $("#rasio2-hasil").empty();
+    $("#rasio3-hasil").html(
+      '<i class="bx bx-right-arrow-alt"></i>' +
+        rasio_hasil_train +
+        " Data Latih & " +
+        rasio_hasil_test +
+        " Data Test"
     );
   }
 }

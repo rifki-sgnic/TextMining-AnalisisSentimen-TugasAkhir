@@ -1,0 +1,50 @@
+{% extends 'base.html' %} 
+{% block title %}Prediksi Data{% endblock title %}
+{% block content %}
+
+<div class="col-md-12 col-sm-12">
+  <div class="bs-callout bs-callout-primary mt-0">
+    <div class="d-inline-flex">
+      <h3>Prediksi Data</h3>
+    </div>
+    <p class="text-muted">Prediksi hasil input</p>
+  </div>
+
+  {% with messages = get_flashed_messages(category_filter=["success"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% with messages = get_flashed_messages(category_filter=["error"]) %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div>
+    <form>
+      <div class="mb-3">
+        <label for="teks-prediksi" class="form-label">Teks prediksi</label>
+        <input type="text" class="form-control" id="teks-prediksi" name="teks-prediksi" aria-describedby="teksHelp">
+        <div id="teksHelp" class="form-text">Input teks untuk prediksi</div>
+      </div>
+      <button type="button" id="btn-prediksi" class="btn btn-primary">Prediksi</button>
+    </form>
+    <div id="content_prediksi">
+      <p>Hasil</p>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

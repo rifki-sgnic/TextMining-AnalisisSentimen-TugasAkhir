@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container w-75 text-center">
-  <h3>Implementasi <em>Multinomial Naive Bayes</em> untuk Analisis Sentimen Masyarakat Terhadap Kenaikan Harga Tiket Candi Borobudur pada Media Sosial Twitter</h3>
+  <h3>Implementasi <em>Multinomial Naive Bayes</em> untuk Analisis Sentimen Masyarakat Terhadap Wacana Kenaikan Harga Tiket Candi Borobudur pada Media Sosial Twitter</h3>
   <h4>1811501327 - Muhammad Rifki</h4>
 </div>
 <hr>
@@ -96,8 +96,12 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title text-center">Chart Pembagian Data</h4>
+        {% if data.data_train != 0 and data.data_test != 0  %}
         <canvas id="chart-split-data"></canvas>
-        <!-- <p>{{ data.data_train / (data.data_train + data.data_test) }} : {{ data.data_test / (data.data_train + data.data_test) }}</p> -->
+        <p class="card-text text-muted text-center mt-2">Rasio {{ data.rasio_bagi_train }} : {{ data.rasio_bagi_test }}</p>
+        {% else %}
+        <h5 class="text-center">Silahkan lakukan pembagian data terlebih dahulu.</h5>
+        {% endif %}
       </div>
     </div>
   </div>

@@ -22,9 +22,12 @@
         <p class="text-muted mb-0">
           <label class="btn btn-danger rounded disabled btn-sm w-25 mb-1"
             >NEGATIF</label
-          ><small class="ml-3"> Menyangkal / Menolak / Menampik</small>
+          ><small class="ml-3"> Menyangkal / Menolak / Mengkritik</small>
         </p>
-        <!-- <p class="text-muted mb-0"><label class="btn btn-secondary rounded disabled btn-sm w-25 mb-1">NETRAL</label><small class="ml-3">Netral / Tidak Berpihak</small></p> -->
+        <p class="text-muted mb-0">
+          <label class="btn btn-secondary rounded disabled btn-sm w-25 mb-1"
+            >NETRAL</label
+          ><small class="ml-3"> Netral / Tidak Berpihak</small></p>
       </div>
     </div>
   </div>
@@ -52,9 +55,10 @@
   {% endwith %}
 
   <div class="col-md-12">
+    <div class="d-flex justify-content-center">Jumlah data Berlabel: {{ count_data_with_label }}</div>
     <div class="d-flex flex-row mb-3">
       <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalLabeling"><i class="bx bx-purchase-tag"></i> <em>Labeling</em> Manual</button>
-    <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataLabeling"><i class='bx bx-trash'></i> Hapus Data Labeling</button>
+      <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataLabeling"><i class='bx bx-trash'></i> Hapus Data Labeling</button>
     </div>
   </div>
 

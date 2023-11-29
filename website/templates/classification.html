@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}Klasifikasi{% endblock title %}
+{% block title %}Klasifikasi dan Evaluasi{% endblock title %}
 {% block content %}
 
 <div class="col-md-12 col-sm-12" id="content_classification">
   <div class="bs-callout bs-callout-primary mt-0">
     <div class="d-inline-flex">
-      <h3>Klasifikasi Data</h3>
+      <h3>Klasifikasi dan Evaluasi</h3>
     </div>
-    <p class="text-muted">Membuat Model Latih dengan Data Latih dan Melakukan Klasifikasi</p>
+    <p class="text-muted">Melakukan Klasifikasi dengan Multinomial Naïve Bayes dan Melakukan Evaluasi</p>
   </div>
 
   {% with messages = get_flashed_messages(category_filter=["success"]) %}
@@ -34,52 +34,102 @@
 
   <div>
     <div class="d-flex flex-row mb-3">
-      <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalClassification"><i class='bx bx-cog'></i> Buat <em>Model</em> Classification</button>
-      <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusClassification"><i class='bx bx-trash'></i> Hapus Data Classification</button>
+      <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalClassification"><i class='bx bx-cog'></i> Buat Klasifikasi Data</button>
+      {% if data_eval != None %}
+      <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusClassification"><i class='bx bx-trash'></i> Hapus Data Klasifikasi</button>
+      {% endif %}
     </div>
 
     {% if data_eval != None %}
 
     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="result-classification-tab" data-bs-toggle="tab" data-bs-target="#result-classification-tab-pane" type="button" role="tab" aria-controls="result-classification-tab-pane" aria-selected="true">Result Classification</button>
+        <button class="nav-link active" id="result-classification-tab" data-bs-toggle="tab" data-bs-target="#result-classification-tab-pane" type="button" role="tab" aria-controls="result-classification-tab-pane" aria-selected="true">Hasil Klasifikasi</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="evaluation-tab" data-bs-toggle="tab" data-bs-target="#evaluation-tab-pane" type="button" role="tab" aria-controls="evaluation-tab-pane" aria-selected="false">Evaluation</button>
+        <button class="nav-link" id="evaluation-tab" data-bs-toggle="tab" data-bs-target="#evaluation-tab-pane" type="button" role="tab" aria-controls="evaluation-tab-pane" aria-selected="false">Evaluasi</button>
       </li>
     </ul>
 
     <div class="tab-content p-3" id="myTabContent">
       <div class="tab-pane fade show active" id="result-classification-tab-pane" role="tabpanel" aria-labelledby="result-classification-tab" tabindex="0">
         <div class="table-responsive-sm">
-          <table class="table table-bordered table-striped text-center w-100" id="table_dataPredict">
+          <table class="table table-bordered table-striped w-100" id="table_dataPredict">
             <thead class="w-100">
               <tr>
                 <th width="5%" class="text-center">No.</th>
                 <th width="65%" class="text-center">Teks</th>
                 <th width="15%" class="text-center">Label Aktual</th>
                 <th width="15%" class="text-center">Label Prediksi</th>
+                <th width="15%" class="text-center">Nilai Prediksi</th>
               </tr>
             </thead>
             <tbody>
               {% for row in range(data_eval.text_list|length) %}
                 <tr>
-                  <td>{{ loop.index }}</td>
-                  <td>{{ data_eval.text_list[row] }}</td>
+                  <td class="text-center">{{ loop.index }}</td>
                   <td>
+                    {{ data_eval.text_asli_list[row] }}
+                    <div class="d-flex justify-content-center">
+                      <button type="button" data-bs-toggle="modal" data-bs-target="#modalTweetAsli{{ row }}" class="btn btn-primary btn-sm float-right mt-2">
+                          <i class="bx bx-search"></i> Lihat Tweet Bersih
+                      </button>
+                    </div>
+                    <!-- Modal Tweet Asli -->
+                    <div class="modal fade" tabindex="-1" id="modalTweetAsli{{ row }}">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Detail Tweet Bersih</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body mx-3">
+                            <h6 class="mb-2">Tweet Asli:</h6>
+                            <p id="tweetAsli" class="text-left">{{ data_eval.text_asli_list[row] }}</p>
+                            <hr />
+                            <h6 class="mb-2">Tweet Bersih:</h6>
+                            <p id="tweetBersih">{{ data_eval.text_list[row] }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">
                     {% if data_eval.label_list[row] == 'positif' %}
-                      <label class="btn btn-success disabled">{{ data_eval.label_list[row]|upper }}</label>
+                      <label class="btn btn-success disabled text-center">{{ data_eval.label_list[row]|upper }}</label>
+                    {% elif data_eval.label_list[row] == 'negatif' %}
+                      <label class="btn btn-danger disabled text-center">{{ data_eval.label_list[row]|upper }}</label>
                     {% else %}
-                      <label class="btn btn-danger disabled">{{ data_eval.label_list[row]|upper }}</label>
+                      <label class="btn btn-secondary disabled">{{ data_eval.label_list[row]|upper }}</label>
                     {% endif %}
                   </td>
-                  <td>
+                  <td class="text-center">
                     {% if data_eval.predict_label[row] == 'positif' %}
                       <label class="btn btn-success disabled">{{ data_eval.predict_label[row]|upper }}</label>
-                    {% else %}
+                    {% elif data_eval.predict_label[row] == 'negatif' %}
                       <label class="btn btn-danger disabled">{{ data_eval.predict_label[row]|upper }}</label>
+                    {% else %}
+                      <label class="btn btn-secondary disabled">{{ data_eval.predict_label[row]|upper }}</label>
                     {% endif %}
-                    <!-- {{ data_eval.prob_predict[row] }} -->
+                  </td>
+                  <td class="text-center">
+                    {% if data_eval.jumlah_kelas == 3 %}
+
+                      {% if data_eval.predict_label[row] == 'positif' %}
+                        {{ data_eval.predict_prob[row][2] }}
+                      {% elif data_eval.predict_label[row] == 'negatif' %}
+                        {{ data_eval.predict_prob[row][1] }}
+                      {% else %}
+                        {{ data_eval.predict_prob[row][0] }}
+                      {% endif %}
+                    
+                    {% elif data_eval.jumlah_kelas == 2 %}
+                      {% if data_eval.predict_label[row] == 'negatif' %}
+                        {{ data_eval.predict_prob[row][0] }}
+                      {% elif data_eval.predict_label[row] == 'positif' %}
+                      {{ data_eval.predict_prob[row][1] }}
+                      {% endif %}
+                    {% endif %}
                   </td>
                 </tr>
               {% endfor %}
@@ -87,13 +137,72 @@
           </table>
         </div>
       </div>
+
       <div class="tab-pane fade" id="evaluation-tab-pane" role="tabpanel" aria-labelledby="evaluation-tab" tabindex="0">
         <div class="row mt-4">
           <div class="col-md-6">
             <h5 class="text-center">Confusion Matrix</h5>
             <div class="d-flex justify-content-center container">
-    
               <table class="table table-borderless text-center">
+                {% if data_eval.jumlah_kelas == 3 %}
+                <tbody>
+                  <tr>
+                    <td colspan="2" rowspan="2"></td>
+                    <td colspan="3" class="align-middle border-success border">Data Aktual</td>
+                  </tr>
+                  <tr>
+                    <td class="align-middle border-success border">Negatif</td>
+                    <td class="align-middle border-success border">Netral</td>
+                    <td class="align-middle border-success border">Positif</td>
+                  </tr>
+                  <tr>
+                    <td rowspan="3" class="align-middle p-0 border-success border">Data Prediksi</td>
+                    <td class="align-middle border-success border">Negatif</td>
+                    <td class="table-primary">
+                      <h5 class="mb-0 text-dark">{{ data_eval.tneg }}</h5>
+                      <small class="text-muted">TNeg (True Negatif)</small>
+                    </td>
+                    <td class="border-success border">
+                      <h5 class="mb-0 text-dark">{{ data_eval.fneg1 }}</h5>
+                      <small class="text-muted">FNeg1 (False Negatif1)</small>
+                    </td>
+                    <td class="border-success border">
+                      <h5 class="mb-0 text-dark">{{ data_eval.fneg2 }}</h5>
+                      <small class="text-muted">FNeg2 (False Negatif2)</small>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="align-middle border-success border">Netral</td>
+                    <td class="border-success border">
+                      <h5 class="mb-0 text-dark">{{ data_eval.fnet1 }}</h5>
+                      <small class="text-muted">FNet1 (False Netral1)</small>
+                    </td>
+                    <td class="border-success border table-primary">
+                      <h5 class="mb-0 text-dark">{{ data_eval.tnet }}</h5>
+                      <small class="text-muted">TNet (True Netral)</small>
+                    </td>
+                    <td class="border-success border">
+                      <h5 class="mb-0 text-dark">{{ data_eval.fnet2 }}</h5>
+                      <small class="text-muted">FNet2 (False Netral2)</small>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="align-middle border-success border">Positif</td>
+                    <td class="border-success border">
+                      <h5 class="mb-0 text-dark">{{ data_eval.fpos1 }}</h5>
+                      <small class="text-muted">FPos1 (False Positif1)</small>
+                    </td>
+                    <td class="border-success border">
+                      <h5 class="mb-0 text-dark">{{ data_eval.fpos2 }}</h5>
+                      <small class="text-muted">FPos2 (False Positif2)</small>
+                    </td>
+                    <td class="border-success border table-primary">
+                      <h5 class="mb-0 text-dark">{{ data_eval.tpos }}</h5>
+                      <small class="text-muted">TN (True Positif)</small>
+                    </td>
+                  </tr>
+                </tbody>
+                {% elif data_eval.jumlah_kelas == 2 %}
                 <tbody>
                   <tr>
                     <td colspan="2" rowspan="2"></td>
@@ -112,7 +221,7 @@
                     </td>
                     <td class="border-success border">
                       <h5 class="mb-0 text-dark">{{ data_eval.fp }}</h5>
-                      <small cclass="text-muted">FP (False Positive)</small>
+                      <small class="text-muted">FP (False Positive)</small>
                     </td>
                   </tr>
                   <tr>
@@ -127,6 +236,7 @@
                     </td>
                   </tr>
                 </tbody>
+                {% endif %}
               </table>
     
             </div>
@@ -135,6 +245,51 @@
             <h5 class="text-center">Detail Pengujian</h5>
             <div class="container text-muted">
               <table class="table table-borderless table-sm">
+                {% if data_eval.jumlah_kelas == 3 %}  
+                <tbody>
+                  <tr>
+                    <td rowspan="4" class="text-right"><span class="h6">Akurasi</span></td>
+                    <td><span class="h6 text-muted">= (TNeg + TNet + TPos) / (TNeg + FNeg1 + FNeg2 + FNet1 + TNet + FNet2 + FPos1 + FPos2 + TPos)</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= ({{ data_eval.tneg }} + {{ data_eval.tnet }} + {{ data_eval.tpos }}) / ({{ data_eval.tneg }} + {{ data_eval.fneg1 }} + {{ data_eval.fneg2 }} + {{ data_eval.fnet1 }} + {{ data_eval.tnet }} + {{ data_eval.fnet2 }} + {{ data_eval.fpos1 }} + {{ data_eval.fpos2 }} + {{ data_eval.tpos }})</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= ({{ data_eval.tneg + data_eval.tnet + data_eval.tpos }}) / ({{ data_eval.tneg + data_eval.fneg1 + data_eval.fneg2 + data_eval.fnet1 + data_eval.tnet + data_eval.fnet2 + data_eval.fpos1 + data_eval.fpos2 + data_eval.tpos }})</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= {{ data_eval.akurasi }} * 100%</span><span class="h6">= {{ data_eval.akurasi * 100 }} %</span></td>
+                  </tr>
+                  <tr><td colspan="3"></td></tr>
+                  <tr>
+                    <td rowspan="4" class="text-right"><span class="h6">Presisi</span></td>
+                    <td><span class="h6 text-muted">= (Presisi Negatif + Presisi Netral + Presisi Positif) / Jumlah Kelas</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= ({{ data_eval.presisi_negatif }} + {{ data_eval.presisi_netral }} + {{ data_eval.presisi_positif }}) / {{ data_eval.jumlah_kelas }}</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= ({{ data_eval.presisi_negatif + data_eval.presisi_netral + data_eval.presisi_positif }}) / {{ data_eval.jumlah_kelas }}</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= {{ data_eval.presisi }} * 100%</span><span class="h6">= {{ data_eval.presisi * 100 }} %</span></td>
+                  </tr>
+                  <tr><td colspan="3"></td></tr>
+                  <tr>
+                    <td rowspan="4" class="text-right"><span class="h6">Recall</span></td>
+                    <td><span class="h6 text-muted">= (Recall Negatif + Recall Netral + Recall Positif) / Jumlah Kelas</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= ({{ data_eval.recall_negatif }} + {{ data_eval.recall_netral }} + {{ data_eval.recall_positif }}) / {{ data_eval.jumlah_kelas }}</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= ({{ data_eval.recall_negatif + data_eval.recall_netral + data_eval.recall_positif }}) / {{ data_eval.jumlah_kelas }}</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="h6 text-muted">= {{ data_eval.recall }} * 100%</span><span class="h6">= {{ data_eval.recall * 100 }} %</span></td>
+                  </tr>
+                </tbody>
+                {% elif data_eval.jumlah_kelas == 2 %}
                 <tbody>
                   <tr>
                     <td rowspan="4" class="text-right"><span class="h6">Akurasi</span></td>
@@ -178,6 +333,7 @@
                     <td><span class="h6 text-muted">= {{ data_eval.recall }} * 100%</span><span class="h6">= {{ data_eval.recall * 100 }}%</span></td>
                   </tr>
                 </tbody>
+                {% endif %}
               </table>
             </div>
           </div>
@@ -189,20 +345,17 @@
 
     {% endif %}
   
-    <!-- Modal Modeling -->
+    <!-- Modal Klasifikasi -->
     <div class="modal fade" tabindex="-1" id="modalClassification">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modeling</h5>
+            <h5 class="modal-title">Klasifikasi dan Evaluasi</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form>
             <div class="modal-body mx-3">
-            <label class="text-muted mb-0 text-justify">Pembuatan <em>model</em> latih dengan ekstraksi fitur menggunakan <span class="h6">TfIdfVectorizer</span>, dengan sampel yang diperoleh dari <span class="h6">{{ count_data_training }}</span> Data Latih.</label>
-              <div class="form-group px-4 text-left">
-                <label>Akan dibuat modeling dengan ekstensi .pkl</label>
-              </div>
+              <label class="mb-0 text-justify">Pembuatan model klasifikasi dengan menggunakan ekstraksi fitur <span class="h6">CountVectorizer</span>, dengan sampel yang diperoleh dari <span class="h6">{{ count_data_training }}</span> Data Latih.</label>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -223,7 +376,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body mx-3">
-          <p class="my-2">Apakah Anda yakin ingin menghapus data Classification?</p>
+          <p class="my-2">Apakah Anda yakin ingin menghapus data Klasifikasi dan Evaluasi?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Splitting Data{% endblock title %}
+{% block title %}Pembagian Data{% endblock title %}
 {% block content %}
 
 <div class="col-md-12 col-sm-12" id="content_split">
@@ -7,7 +7,7 @@
     <div class="d-inline-flex">
       <h3>Pembagian Data</h3>
     </div>
-    <p class="text-muted">Membagi data ber<em>label</em> menjadi Data Uji dan Data Latih</p>
+    <p class="text-muted">Membagi data ber<em>label</em> menjadi Data <em>Train</em> dan Data <em>Test</em></p>
   </div>
 
   {% with messages = get_flashed_messages(category_filter=["success"]) %}
@@ -33,8 +33,8 @@
   {% endwith %}
 
     <div class="d-flex flex-row mb-3">
-      <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalSplitting"><i class="bx bx-columns"></i> <em>Splitting</em> Data</button>
-      <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataSplit"><i class='bx bx-trash'></i> Hapus Data Split</button>
+      <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#modalSplitting"><i class="bx bx-columns"></i> Buat Pembagian Data</button>
+      <button type="button" class="btn btn-danger mx-1 ms-auto" data-bs-toggle="modal" data-bs-target="#modalHapusDataSplit"><i class='bx bx-trash'></i> Hapus Data Pembagian</button>
     </div>
 
     <div>
@@ -50,7 +50,7 @@
 
     <div class="tab-content p-3" id="myTabContent">
       <div class="tab-pane fade show active" id="data-train-tab-pane" role="tabpanel" aria-labelledby="data-train-tab" tabindex="0">
-        
+        <div class="d-flex justify-content-center">Jumlah data Train: {{ count_data_train }}</div>
         <div class="table-responsive-sm">
           <table class="table table-bordered table-striped w-100" id="table_dataTrain">
             <thead class="w-100">
@@ -69,7 +69,7 @@
       </div>
 
       <div class="tab-pane fade" id="data-test-tab-pane" role="tabpanel" aria-labelledby="data-test-tab" tabindex="0">
-        
+        <div class="d-flex justify-content-center">Jumlah data Test: {{ count_data_test }}</div>
         <div class="table-responsive-sm">
           <table class="table table-bordered table-striped w-100" id="table_dataTest">
             <thead class="w-100">
@@ -92,42 +92,54 @@
   
     <!-- Modal Splitting -->
     <div class="modal fade" tabindex="-1" id="modalSplitting">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Splitting Data</h5>
+            <h5 class="modal-title">Pembagian Data</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form>
             <div class="modal-body px-5">
-              <label class="text-muted d-inline-flex align-items-center mb-1">Pembagian data dilakukan dengan Stratified Random Sampling</label>
-              <label class="text-muted d-inline-flex align-items-center mb-1">Sebanyak <h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabel">{{ count_data_with_label }}</h5> data ber<em>label</em> akan dibagi</label>
-              <label class="text-muted d-inline-flex align-items-center mb-1">Pembagian data sebanyak: </label>
-              <label class="text-muted d-inline-flex align-items-center mb-0"><h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabelPos">{{ percentage_pos }}%</h5> Positif <h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabelNeg">{{ percentage_neg }}%</h5> Negatif</h5></label>
+              <label class="text-center mb-1">Pembagian data dilakukan dengan teknik Stratified Random Sampling</label>
+              <label class="text-muted d-flex align-items-center justify-content-center mb-1">Sebanyak <h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabel">{{ count_data_with_label }}</h5> data ber<em>label</em> akan dibagi</label>
+              <label class="text-center mb-1">Pembagian data berdasarkan strata sentimen sebanyak: </label>
+              <label class="text-muted d-flex align-items-center justify-content-center mb-0">
+                <h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabelPos">{{ percentage_pos }}%</h5> Positif 
+                <h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabelNeg">{{ percentage_neg }}%</h5> Negatif
+                <h5 class="text-info mx-2 mb-0" id="jumlah_dataWithLabelNet">{{ percentage_net }}%</h5> Netral
+              </label>
               <br />
               <small class="text-info d-none fadeIn" id="validasi_split">
                 <i class="fa fa-info-circle"></i> Silakan lakukan proses '<em>Labeling</em>' terlebih dahulu
               </small>
-              <div class="container-fluid text-left mt-3">
-                <label class="text-muted">Pilih rasio pembagian data (Data Uji : Data Latih):</label>
+              <div class="container-fluid text-left">
+                <label>Pilih rasio pembagian data (Data Train : Data Test):</label>
                 <br />
                 <small class="text-info d-none fadeIn" id="validasi_rasio">
                   <i class="fa fa-info-circle"></i> Pilih rasio pembagian data(di bawah) terlebih dahulu
                 </small>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="rasio" value="2:8" id="rasio1" onclick="cariRasio(this.value)">
+                  <input class="form-check-input" type="radio" name="rasio" value="8:2" id="rasio1" onclick="cariRasio(this.value)">
                   <label class="form-check-label" for="rasio1">
-                    2 : 8
+                    8 : 2
                     <span class="text-muted ml-3" id="rasio1-hasil"></span>
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="rasio" value="1:9" id="rasio2" onclick="cariRasio(this.value)">
+                  <input class="form-check-input" type="radio" name="rasio" value="9:1" id="rasio2" onclick="cariRasio(this.value)">
                   <label class="form-check-label" for="rasio2">
-                    1 : 9
+                    9 : 1
                     <span class="text-muted ml-3" id="rasio2-hasil"></span>
                   </label>
                 </div>
+                <label>Input Rasio (Data Train):</label>
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="radio" name="rasio" id="rasio3" value="custom" onclick="cariRasio(this.value)">
+                  </div>
+                  <input type="number" class="form-control" name="custom_value" id="custom_value" min="5" max="9" placeholder="input angka 5 - 9"  onKeyUp="if(this.value>9){this.value='9';}else if(this.value<5){this.value='5';}">
+                </div>
+                <span class="text-muted ml-3" id="rasio3-hasil"></span>
               </div>
             </div>
           </form>

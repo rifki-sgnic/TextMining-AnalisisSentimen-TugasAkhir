@@ -1,12 +1,11 @@
-import json
-from urllib import response
-from flask import Blueprint, jsonify, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from website.controllers.crawling import CrawlingController
 
 from website.controllers.dashboard import DashboardController
 from website.controllers.kamus import KamusController
 from website.controllers.labeling import LabelingController
 from website.controllers.classification import ClassificationController
+from website.controllers.prediksi import PrediksiController
 from website.controllers.preprocessing import PreprocessingController
 from website.controllers.splitting import SplittingController
 from website.controllers.visualization import VisualizationController
@@ -25,7 +24,9 @@ def dashboard():
 controller_kamus = KamusController()
 @views.route('/kamus', methods=['GET'])
 def kamus():
-    return render_template("kamus.html")
+    count_slangword = controller_kamus.count_dataSlangword()
+    count_stopword = controller_kamus.count_dataStopword()
+    return render_template("kamus.html", count_slangword=count_slangword, count_stopword=count_stopword)
 
 ## Slangword
 @views.route('/kamus/list-slangword', methods=['GET'])
@@ -96,11 +97,17 @@ controller_crawling = CrawlingController()
 @views.route('/crawling', methods=['GET'])
 def crawling():
     data_crawling = controller_crawling.select_data_crawling()
-    return render_template("crawling.html", data=data_crawling)
+    count_data_crawling = controller_crawling.count_data_crawling()
+    return render_template("crawling.html", data=data_crawling, count_data_crawling=count_data_crawling)
 
 @views.route('/import-crawling', methods=['POST'])
 def import_crawling():
-    controller_crawling.import_crawlingExcel()
+    controller_crawling.import_crawling_excel()
+    return redirect(url_for('views.crawling'))
+
+@views.route('/crawling/hapus', methods=['POST'])
+def hapus_all_crawling():
+    controller_crawling.delete_data_crawling()
     return redirect(url_for('views.crawling'))
 
 
@@ -110,17 +117,23 @@ controller_preprocessing = PreprocessingController()
 @views.route('/preprocessing', methods=['GET','POST'])
 def preprocessing():
     if request.method == 'GET':
-        count_data_crawling = controller_preprocessing.count_dataCrawling()
-        return render_template("preprocessing.html", count_data_crawling=count_data_crawling)
+        count_data_crawling = controller_preprocessing.count_data_crawling()
+        count_data_preprocessing = controller_preprocessing.count_data_preprocessing()
+        return render_template("preprocessing.html", count_data_crawling=count_data_crawling, count_data_preprocessing=count_data_preprocessing)
 
     if request.method == 'POST':
-        response = controller_preprocessing.add_dataPreprocessing()
-        return response
+        controller_preprocessing.add_data_preprocessing()
+        return redirect(url_for('views.preprocessing'))
 
 @views.route('/list-data-preprocessing', methods=['GET'])
 def list_data_preprocessing():
-    data_preprocessing = controller_preprocessing.select_dataPreprocessing()
+    data_preprocessing = controller_preprocessing.select_data_preprocessing()
     return { 'data' : data_preprocessing }
+
+@views.route('/preprocessing/hapus', methods=['POST'])
+def hapus_all_preprocessing():
+    controller_preprocessing.delete_all_preprocessing()
+    return redirect(url_for('views.preprocessing'))
 
 # LABELING
 controller_labeling = LabelingController()
@@ -128,7 +141,7 @@ controller_labeling = LabelingController()
 @views.route('/labeling', methods=['GET','POST'])
 def labeling():
     if request.method == 'GET':
-        count_data_with_label = controller_labeling.count_dataWithLabel()
+        count_data_with_label = controller_labeling.count_data_with_label()
         return render_template("labeling.html", count_data_with_label=count_data_with_label)
     
     if request.method == 'POST':
@@ -160,6 +173,9 @@ def split():
         count_data_with_label = controller_splitting.count_dataWithLabel()
         count_data_with_label_pos = controller_splitting.count_dataWithLabelPos()
         count_data_with_label_neg = controller_splitting.count_dataWithLabelNeg()
+        count_data_with_label_net = controller_splitting.count_dataWithLabelNet()
+        count_data_train = controller_splitting.count_data_train()
+        count_data_test = controller_splitting.count_data_test()
 
         if count_data_with_label_pos != 0:
             percentage_pos = round((count_data_with_label_pos / count_data_with_label) * 100)
@@ -170,12 +186,21 @@ def split():
             percentage_neg = round((count_data_with_label_neg / count_data_with_label) * 100)
         else:
             percentage_neg = 0
+        
+        if count_data_with_label_net != 0:
+            percentage_net = round((count_data_with_label_net / count_data_with_label) * 100)
+        else:
+            percentage_net = 0
 
         return render_template("splitting.html", count_data_with_label=count_data_with_label, 
         count_data_with_label_pos=count_data_with_label_pos, 
         count_data_with_label_neg=count_data_with_label_neg,
+        count_data_with_label_net=count_data_with_label_net,
+        count_data_train=count_data_train,
+        count_data_test=count_data_test,
         percentage_pos=percentage_pos,
-        percentage_neg=percentage_neg)
+        percentage_neg=percentage_neg,
+        percentage_net=percentage_net)
     
     if request.method == 'POST':
         response = controller_splitting.add_dataSplit()
@@ -201,16 +226,17 @@ controller_classification = ClassificationController()
 @views.route('/classification', methods=['GET','POST'])
 def classification():
     if request.method == 'GET':
-        data_eval = controller_classification.getEvaluation()
-        return render_template("classification.html", data_eval=data_eval)
+        data_eval = controller_classification.get_evaluation()
+        count_data_training = controller_classification.count_data_train()
+        return render_template("classification.html", data_eval=data_eval, count_data_training=count_data_training)
 
     if request.method == 'POST':
-        response = controller_classification.createModel()
+        response = controller_classification.create_model()
         return response
 
 @views.route('/classification/hapus-data', methods=['POST'])
 def hapus_evaluation():
-    controller_classification.deleteEvalutaion()
+    controller_classification.delete_evalutaion()
     return redirect(url_for('views.classification'))
 
 # VISUALISASI
@@ -218,14 +244,24 @@ controller_visualisasi = VisualizationController()
 @views.route('/visualization', methods=['GET', 'POST'])
 def visualization():
     if request.method == 'GET':
-        data = controller_visualisasi.getVisualisasi()
+        data = controller_visualisasi.get_visualisasi()
         return render_template('visualization.html', data=data)
     
     if request.method == 'POST':
-        response = controller_visualisasi.createVisualisasi()
+        response = controller_visualisasi.create_visualisasi()
         return response
 
 @views.route('/visualization/hapus-data', methods=['POST'])
 def hapus_visualization():
-    controller_visualisasi.deleteVisualisasi()
+    controller_visualisasi.delete_visualisasi()
     return redirect(url_for('views.visualization'))
+
+controller_prediksi = PrediksiController()
+@views.route('/prediksi', methods=['GET', 'POST'])
+def prediksi():
+    if request.method == 'GET':
+        return render_template('prediksi.html')
+    
+    if request.method == 'POST':
+        response = controller_prediksi.prediksi_teks()
+        return response
